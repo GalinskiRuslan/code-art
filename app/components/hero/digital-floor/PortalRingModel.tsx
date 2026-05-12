@@ -1,61 +1,30 @@
 "use client";
 
-import { useGLTF } from "@react-three/drei";
-import { useMemo } from "react";
 import * as THREE from "three";
 
 import { floorHeight } from "./relief";
 
-type ThreeObject3D = InstanceType<typeof THREE.Object3D>;
-type ThreeMaterial = InstanceType<typeof THREE.Material>;
-
-const portalUrl = "/models/digitalfloor/Neon_Ring_Portal_0425162138_texture.glb";
 const portalPosition: [number, number, number] = [
   0.25,
   floorHeight(0.25, -8) + 0.035,
   -8,
 ];
+const portalSpokes = Array.from({ length: 24 }, (_, index) => {
+  const angle = (index / 24) * Math.PI * 2;
+  const radius = index % 2 === 0 ? 2.15 : 1.86;
+
+  return {
+    angle,
+    position: [
+      portalPosition[0] + Math.cos(angle) * radius,
+      portalPosition[1] + 0.058,
+      portalPosition[2] + Math.sin(angle) * radius,
+    ] as [number, number, number],
+    scale: index % 3 === 0 ? 1.18 : 0.82,
+  };
+});
 
 export function PortalRingModel() {
-  const { scene } = useGLTF(portalUrl);
-
-  const model = useMemo(() => {
-    const cloned = scene.clone(true);
-
-    cloned.traverse((child: ThreeObject3D) => {
-      if (!(child instanceof THREE.Mesh)) return;
-
-      child.castShadow = false;
-      child.receiveShadow = true;
-
-      if (Array.isArray(child.material)) {
-        child.material = child.material.map((material: ThreeMaterial) =>
-          material.clone()
-        );
-      } else {
-        child.material = child.material.clone();
-      }
-
-      const materials: ThreeMaterial[] = Array.isArray(child.material)
-        ? child.material
-        : [child.material];
-
-      materials.forEach((material) => {
-        material.depthWrite = false;
-
-        if (material instanceof THREE.MeshStandardMaterial) {
-          material.emissive = new THREE.Color("#9d89ff");
-          material.emissiveIntensity = 3.2;
-          material.roughness = 0.28;
-          material.metalness = 0.38;
-          material.toneMapped = false;
-        }
-      });
-    });
-
-    return cloned;
-  }, [scene]);
-
   return (
     <group>
       <mesh position={[portalPosition[0], portalPosition[1] + 0.012, portalPosition[2]]} rotation={[-Math.PI / 2, 0, 0]}>
@@ -113,6 +82,46 @@ export function PortalRingModel() {
           toneMapped={false}
         />
       </mesh>
+      <mesh position={[portalPosition[0], portalPosition[1] + 0.034, portalPosition[2]]} rotation={[-Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[2.18, 0.022, 12, 160]} />
+        <meshBasicMaterial
+          color="#f3eaff"
+          transparent
+          opacity={0.52}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+      <mesh position={[portalPosition[0], portalPosition[1] + 0.05, portalPosition[2]]} rotation={[-Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[1.28, 0.018, 12, 128]} />
+        <meshBasicMaterial
+          color="#9d89ff"
+          transparent
+          opacity={0.4}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+      {portalSpokes.map((spoke, index) => (
+        <mesh
+          key={index}
+          position={spoke.position}
+          rotation={[0, -spoke.angle, 0]}
+          scale={[1, 1, spoke.scale]}
+        >
+          <boxGeometry args={[0.045, 0.028, 0.58]} />
+          <meshBasicMaterial
+            color={index % 2 === 0 ? "#fff8ff" : "#a998ff"}
+            transparent
+            opacity={index % 2 === 0 ? 0.5 : 0.34}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+            toneMapped={false}
+          />
+        </mesh>
+      ))}
       <pointLight
         position={[portalPosition[0], portalPosition[1] + 0.45, portalPosition[2]]}
         color="#a998ff"
@@ -120,14 +129,6 @@ export function PortalRingModel() {
         distance={9}
         decay={2}
       />
-      <primitive
-        object={model}
-        position={portalPosition}
-        rotation={[0, 0, 0]}
-        scale={2.22}
-      />
     </group>
   );
 }
-
-useGLTF.preload(portalUrl);

@@ -8,9 +8,6 @@ import * as THREE from "three";
 type ThreeGroup = InstanceType<typeof THREE.Group>;
 type ThreeObject3D = InstanceType<typeof THREE.Object3D>;
 
-import { interludeAssets } from "../../lib/asset-manifest";
-import { StaticModel } from "../models/StaticModel";
-
 function createSpherePoints(count: number, radius: number, irregularity = 0.2) {
   const values = new Float32Array(count * 3);
 
@@ -111,6 +108,69 @@ function createInnerStream(count: number, radius: number, seed: number) {
       Math.sin(swirl) * localRadius * 0.92,
     ] as [number, number, number];
   });
+}
+
+function NeuralCoreShell() {
+  return (
+    <group rotation={[0.16, -0.24, -0.08]} scale={0.66}>
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.68, 0.018, 12, 96]} />
+        <meshBasicMaterial
+          color="#fff7ff"
+          transparent
+          opacity={0.46}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+      <mesh rotation={[0.5, 0.2, Math.PI / 2]}>
+        <torusGeometry args={[0.5, 0.014, 12, 80]} />
+        <meshBasicMaterial
+          color="#bda8ff"
+          transparent
+          opacity={0.34}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+      <mesh rotation={[0.18, Math.PI / 2, 0.32]}>
+        <torusGeometry args={[0.38, 0.012, 10, 72]} />
+        <meshBasicMaterial
+          color="#d8c6ff"
+          transparent
+          opacity={0.38}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+      <mesh>
+        <icosahedronGeometry args={[0.34, 2]} />
+        <meshBasicMaterial
+          color="#f7eaff"
+          wireframe
+          transparent
+          opacity={0.18}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[0.16, 24, 24]} />
+        <meshBasicMaterial
+          color="#ffffff"
+          transparent
+          opacity={0.72}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </mesh>
+    </group>
+  );
 }
 
 export function AICore() {
@@ -341,14 +401,7 @@ export function AICore() {
           />
         </mesh>
         <pointLight color="#cbb8ff" intensity={5.6} distance={7.2} decay={2} />
-        <group rotation={[0.12, 0.42, -0.18]}>
-          <StaticModel
-            url={interludeAssets.electricNebula}
-            scale={0.66}
-            position={[0, 0, 0]}
-            rotation={[0.16, -0.24, -0.08]}
-          />
-        </group>
+        <NeuralCoreShell />
       </group>
 
       <group ref={innerGlowRef}>

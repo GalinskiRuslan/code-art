@@ -20,9 +20,3 @@ export const labAssets = {
   wallTexture: "/models/textures/0fc7afd1563eec5c52d610699bd6e893.jpg",
   ceilingTexture: "/models/textures/7i3kovkzemoqexiipwnnqdgsxzfju7va.jpg",
 } as const;
-
-export const interludeAssets = {
-  electricNebula: "/models/Meshy_AI_Electric_Nebula_0406104156_texture.glb",
-  neonCircuitGrid: "/models/Meshy_AI_Neon_Circuit_Grid_0406142803_texture.glb",
-  neonCircuitMetropol: "/models/Meshy_AI_Neon_Circuit_Metropol_0407132653_texture.glb",
-} as const;

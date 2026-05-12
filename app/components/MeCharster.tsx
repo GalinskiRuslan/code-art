@@ -81,7 +81,7 @@ export default function CharacterFbxScene() {
             </Html>
           }
         >
-          <FbxModel url="/models/Typing.fbx" />
+          <FbxModel url="/models/anims/Typing.fbx" />
         </Suspense>
 
         <OrbitControls target={[0, 0.9, 0]} enableRotate={false} enableDamping />
