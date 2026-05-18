@@ -438,6 +438,382 @@ const uiUxIconSources = {
   ],
 } as const;
 
+const aiIntegrationCopy = {
+  ru: {
+    eyebrow: "code-art • AI / интеграция",
+    title: "AI-интеграция",
+    accent: "AI",
+    lead:
+      "Подключаем искусственный интеллект к CRM и бизнес-процессам. Автоматизируем рутину, подсказываем решения и ускоряем работу команды.",
+    description:
+      "Интегрируем AI-инструменты в продажи, поддержку и аналитику: от умных подсказок менеджеру до прогнозов, суммаризации диалогов и автоматического запуска действий.",
+    cta: "Обсудить AI-интеграцию",
+    capabilitiesTitle: "Что умеет AI",
+    dataTitle: "Источники данных",
+    resultTitle: "Результат",
+    benefits: [
+      ["Умные подсказки", "Рекомендации менеджеру в реальном времени", "brain"],
+      ["Суммаризация", "Краткие итоги звонков, писем и чатов", "summary"],
+      ["Прогнозирование", "Оценка вероятности сделки и рисков", "forecast"],
+      ["Автодействия", "AI запускает сценарии и задачи", "action"],
+    ],
+    featureCards: [
+      ["lead", "Умный скоринг лидов", "Lead score", "92%", "lead"],
+      ["assistant", "AI-ассистент", "Отвечает, подсказывает, помогает продавать", "", "assistant"],
+      ["transcript", "Транскрипция звонков", "Речь в текст с точностью 98%", "", "wave"],
+      ["summary", "Генерация саммари", "AI summary готов за секунды", "", "document"],
+      ["analytics", "Прогнозная аналитика", "Прогноз сделки", "76%", "chart"],
+      ["tasks", "Автоподсказки задач", "Предлагает задачи по контексту", "", "check"],
+      ["sentiment", "Анализ настроения", "Настроение клиента", "Положительное", "smile"],
+      ["segments", "Умная сегментация", "Выделено 6 сегментов с высоким потенциалом", "", "users"],
+      ["recommend", "Рекомендации действий", "Следующее лучшее действие для сделки", "", "arrow"],
+    ],
+    chips: [
+      ["Lead score", "92%"],
+      ["Следующее действие", "↗"],
+      ["Сумма разговора", "12:45"],
+      ["AI summary", "Готово"],
+      ["Автозадача", "создана"],
+    ],
+    capabilities: ["распознаёт", "анализирует", "предсказывает", "рекомендует"],
+    sources: ["CRM", "Почта", "Звонки", "Чаты", "Сайт"],
+    results: [
+      ["+42%", "скорость реакции"],
+      ["-28%", "рутина"],
+      ["+19%", "конверсия"],
+    ],
+    closeLabel: "Закрыть карточку",
+  },
+  en: {
+    eyebrow: "code-art • AI / integration",
+    title: "AI integration",
+    accent: "AI",
+    lead:
+      "We connect artificial intelligence to CRM and business workflows. Automate routine, suggest decisions, and accelerate the team.",
+    description:
+      "We integrate AI tools into sales, support, and analytics: from smart manager prompts to forecasts, dialogue summaries, and automated actions.",
+    cta: "Discuss AI integration",
+    capabilitiesTitle: "What AI can do",
+    dataTitle: "Data sources",
+    resultTitle: "Result",
+    benefits: [
+      ["Smart prompts", "Real-time recommendations for managers", "brain"],
+      ["Summaries", "Short outcomes from calls, emails, and chats", "summary"],
+      ["Forecasting", "Deal probability and risk estimation", "forecast"],
+      ["Auto actions", "AI launches scenarios and tasks", "action"],
+    ],
+    featureCards: [
+      ["lead", "Lead scoring", "Lead score", "92%", "lead"],
+      ["assistant", "AI assistant", "Answers, suggests, helps sell", "", "assistant"],
+      ["transcript", "Call transcription", "Speech to text with 98% accuracy", "", "wave"],
+      ["summary", "Summary generation", "AI summary ready in seconds", "", "document"],
+      ["analytics", "Predictive analytics", "Deal forecast", "76%", "chart"],
+      ["tasks", "Task prompts", "Suggests tasks from context", "", "check"],
+      ["sentiment", "Sentiment analysis", "Client mood", "Positive", "smile"],
+      ["segments", "Smart segmentation", "6 high-potential segments found", "", "users"],
+      ["recommend", "Action recommendations", "Next best action for the deal", "", "arrow"],
+    ],
+    chips: [
+      ["Lead score", "92%"],
+      ["Next action", "↗"],
+      ["Conversation", "12:45"],
+      ["AI summary", "Ready"],
+      ["Auto task", "created"],
+    ],
+    capabilities: ["recognizes", "analyzes", "predicts", "recommends"],
+    sources: ["CRM", "Email", "Calls", "Chats", "Site"],
+    results: [
+      ["+42%", "response speed"],
+      ["-28%", "routine"],
+      ["+19%", "conversion"],
+    ],
+    closeLabel: "Close card",
+  },
+} satisfies Record<
+  Language,
+  {
+    eyebrow: string;
+    title: string;
+    accent: string;
+    lead: string;
+    description: string;
+    cta: string;
+    capabilitiesTitle: string;
+    dataTitle: string;
+    resultTitle: string;
+    benefits: Array<[string, string, string]>;
+    featureCards: Array<[string, string, string, string, string]>;
+    chips: Array<[string, string]>;
+    capabilities: string[];
+    sources: string[];
+    results: Array<[string, string]>;
+    closeLabel: string;
+  }
+>;
+
+const aiIconSources = {
+  brain: "/ai/BRAIN.png",
+  summary: "/ai/сделай_в_хорошем_качестве_202605151906%20(2).jpeg",
+  forecast: "/ai/сделай_в_хорошем_качестве_202605151906%20(3).jpeg",
+  action: "/ai/сделай_в_хорошем_качестве_202605151907-removebg-preview.png",
+  lead: "/ai/сделай_в_хорошем_качестве_202605160010-removebg-preview.png",
+  assistant: "/ai/сделай_в_хорошем_качестве_202605152259-removebg-preview.png",
+  wave: "/ai/сделай_в_хорошем_качестве_202605152259__1_-removebg-preview.png",
+  document: "/ai/сделай_в_хорошем_качестве_202605151906%20(2).jpeg",
+  chart: "/ai/сделай_в_хорошем_качестве_202605160025-removebg-preview.png",
+  check: "/ai/сделай_в_хорошем_качестве_202605160037-removebg-preview.png",
+  smile: "/ai/сделай_в_хорошем_качестве_202605160043-removebg-preview.png",
+  users: "/ai/сделай_в_хорошем_качестве_202605160048-removebg-preview.png",
+  arrow: "/ai/сделай_в_хорошем_качестве_202605160010__1_-removebg-preview.png",
+  crm: "/ai/сделай_в_хорошем_качестве_202605162322-removebg-preview.png",
+  email: "/ai/сделай_в_хорошем_качестве_202605162359-removebg-preview.png",
+  calls: "/ai/сделай_в_хорошем_качестве_202605160010-removebg-preview.png",
+  chats: "/ai/сделай_в_хорошем_качестве_202605170148-removebg-preview.png",
+  site: "/ai/сделай_в_хорошем_качестве_202605160105-removebg-preview.png",
+} as const;
+
+const aiSourceIconKeys = ["crm", "email", "calls", "chats", "site"] as const;
+
+const supportDevelopmentCopy = {
+  ru: {
+    eyebrow: "code-art · support / development",
+    title: "Поддержка и развитие",
+    lead:
+      "Поддерживаем продукт, быстро решаем задачи и постоянно развиваем систему.",
+    description:
+      "Наша команда сопровождает продукт на всех этапах: мониторим систему 24/7, оперативно решаем инциденты, устраняем ошибки, внедряем улучшения и выпускаем новые версии.",
+    benefits: [
+      ["Мониторинг 24/7", "Постоянный контроль и оповещения", "shield"],
+      ["Быстрое реагирование", "Минимальное время на решение", "lightning"],
+      ["Плановые улучшения", "Регулярное развитие и оптимизация", "growth"],
+      ["Масштабирование", "Рост производительности без потери качества", "cubes"],
+    ],
+    contactsTitle: "Каналы поддержки",
+    contacts: [
+      ["Email", "support@code-art.ru", "mail"],
+      ["Telegram", "@code_art_support", "telegram"],
+      ["WhatsApp", "+7 (999) 123-45-67", "phone"],
+      ["Helpdesk", "support.code-art.ru", "headset"],
+    ],
+    primaryAction: "Обсудить поддержку",
+    secondaryAction: "Получить план развития",
+    requestsTitle: "Новые заявки",
+    requestsToday: "за сегодня",
+    requestsRows: [
+      ["Критические", "2"],
+      ["Высокий", "6"],
+      ["Средний", "10"],
+      ["Низкий", "5"],
+    ],
+    responseTitle: "SLA / время ответа",
+    responseValue: "14 мин",
+    responseText: "средний ответ",
+    fixedTitle: "Исправлено за месяц",
+    fixedValue: "137",
+    fixedText: "задач",
+    healthTitle: "Системное здоровье",
+    healthValue: "Отлично",
+    healthRows: [
+      ["Сервисы", "100%"],
+      ["База данных", "100%"],
+      ["API", "100%"],
+      ["Инфраструктура", "100%"],
+    ],
+    releaseTitle: "Релиз-пайплайн",
+    releaseSteps: ["Код", "Тесты", "Сборка", "Стенд", "Продакшн"],
+    roadmapTitle: "Roadmap",
+    roadmap: [
+      ["Q2 2024", "Модуль аналитики 2.0", "60%"],
+      ["Q3 2024", "Мобильное приложение", "30%"],
+      ["Q3 2024", "Интеграции и API", "20%"],
+      ["Q4 2024", "AI-рекомендации", "0%"],
+    ],
+    uptimeTitle: "Uptime",
+    uptimeValue: "99.9%",
+    uptimeText: "за последние 30 дней",
+    backlogTitle: "Backlog",
+    backlogRows: [
+      ["Критические", "8"],
+      ["Высокий", "15"],
+      ["Средний", "23"],
+      ["Низкий", "34"],
+    ],
+    processTitle: "Наш процесс",
+    process: [
+      ["Мониторинг", "Отслеживаем систему и собираем метрики", "monitor"],
+      ["Анализ", "Анализируем причину и влияние", "analysis"],
+      ["Приоритизация", "Оцениваем важность и планируем", "target"],
+      ["Исправление", "Разрабатываем и тестируем решение", "wrench"],
+      ["Релиз", "Выпускаем безопасно и поэтапно", "rocket"],
+      ["Улучшение", "Собираем обратную связь и улучшаем продукт", "improve"],
+    ],
+    metricsTitle: "Результаты, которыми гордимся",
+    metrics: [
+      ["+38%", "Стабильность системы к прошлому году", "metricStability"],
+      ["14 мин", "Средний ответ службы поддержки", "metricResponse"],
+      ["99.9%", "Uptime за последние 30 дней", "metricUptime"],
+      ["-27%", "Критических ошибок к прошлому кварталу", "metricErrors"],
+      ["480+", "Улучшений и доработок выпущено за год", "metricGrowth"],
+      ["98.7%", "SLA выполнено по всем заявкам", "metricScore"],
+    ],
+    closeLabel: "Закрыть карточку",
+  },
+  en: {
+    eyebrow: "code-art · support / development",
+    title: "Support & Growth",
+    lead:
+      "We support the product, resolve tasks quickly, and continuously improve the system.",
+    description:
+      "Our team supports the product at every stage: monitors systems 24/7, resolves incidents, fixes bugs, ships improvements, and releases new versions.",
+    benefits: [
+      ["24/7 monitoring", "Continuous control and alerts", "shield"],
+      ["Fast response", "Minimal time to resolution", "lightning"],
+      ["Planned improvements", "Regular optimization and growth", "growth"],
+      ["Scaling", "Performance growth without quality loss", "cubes"],
+    ],
+    contactsTitle: "Support channels",
+    contacts: [
+      ["Email", "support@code-art.ru", "mail"],
+      ["Telegram", "@code_art_support", "telegram"],
+      ["WhatsApp", "+7 (999) 123-45-67", "phone"],
+      ["Helpdesk", "support.code-art.ru", "headset"],
+    ],
+    primaryAction: "Discuss support",
+    secondaryAction: "Get growth plan",
+    requestsTitle: "New requests",
+    requestsToday: "today",
+    requestsRows: [
+      ["Critical", "2"],
+      ["High", "6"],
+      ["Medium", "10"],
+      ["Low", "5"],
+    ],
+    responseTitle: "SLA / response time",
+    responseValue: "14 min",
+    responseText: "average response",
+    fixedTitle: "Fixed this month",
+    fixedValue: "137",
+    fixedText: "tasks",
+    healthTitle: "System health",
+    healthValue: "Excellent",
+    healthRows: [
+      ["Services", "100%"],
+      ["Database", "100%"],
+      ["API", "100%"],
+      ["Infrastructure", "100%"],
+    ],
+    releaseTitle: "Release pipeline",
+    releaseSteps: ["Code", "Tests", "Build", "Stage", "Production"],
+    roadmapTitle: "Roadmap",
+    roadmap: [
+      ["Q2 2024", "Analytics module 2.0", "60%"],
+      ["Q3 2024", "Mobile application", "30%"],
+      ["Q3 2024", "Integrations and API", "20%"],
+      ["Q4 2024", "AI recommendations", "0%"],
+    ],
+    uptimeTitle: "Uptime",
+    uptimeValue: "99.9%",
+    uptimeText: "last 30 days",
+    backlogTitle: "Backlog",
+    backlogRows: [
+      ["Critical", "8"],
+      ["High", "15"],
+      ["Medium", "23"],
+      ["Low", "34"],
+    ],
+    processTitle: "Our process",
+    process: [
+      ["Monitoring", "Track systems and collect metrics", "monitor"],
+      ["Analysis", "Analyze root cause and impact", "analysis"],
+      ["Prioritization", "Estimate importance and plan", "target"],
+      ["Fixing", "Build and test the solution", "wrench"],
+      ["Release", "Ship safely and gradually", "rocket"],
+      ["Improvement", "Collect feedback and improve the product", "improve"],
+    ],
+    metricsTitle: "Results we are proud of",
+    metrics: [
+      ["+38%", "System stability year over year", "metricStability"],
+      ["14 min", "Average support response", "metricResponse"],
+      ["99.9%", "Uptime over the last 30 days", "metricUptime"],
+      ["-27%", "Critical bugs quarter over quarter", "metricErrors"],
+      ["480+", "Improvements shipped this year", "metricGrowth"],
+      ["98.7%", "SLA met across all requests", "metricScore"],
+    ],
+    closeLabel: "Close card",
+  },
+} satisfies Record<
+  Language,
+  {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    description: string;
+    benefits: Array<[string, string, string]>;
+    contactsTitle: string;
+    contacts: Array<[string, string, string]>;
+    primaryAction: string;
+    secondaryAction: string;
+    requestsTitle: string;
+    requestsToday: string;
+    requestsRows: Array<[string, string]>;
+    responseTitle: string;
+    responseValue: string;
+    responseText: string;
+    fixedTitle: string;
+    fixedValue: string;
+    fixedText: string;
+    healthTitle: string;
+    healthValue: string;
+    healthRows: Array<[string, string]>;
+    releaseTitle: string;
+    releaseSteps: string[];
+    roadmapTitle: string;
+    roadmap: Array<[string, string, string]>;
+    uptimeTitle: string;
+    uptimeValue: string;
+    uptimeText: string;
+    backlogTitle: string;
+    backlogRows: Array<[string, string]>;
+    processTitle: string;
+    process: Array<[string, string, string]>;
+    metricsTitle: string;
+    metrics: Array<[string, string, string]>;
+    closeLabel: string;
+  }
+>;
+
+const supportIconSources = {
+  shield: "/support/01_01_shield_star.svg",
+  lightning: "/support/01_02_lightning.svg",
+  growth: "/support/01_03_bar_chart.svg",
+  cubes: "/support/01_04_cubes.svg",
+  infinity: "/support/01_05_infinity.svg",
+  heart: "/support/01_06_heart_pulse.svg",
+  monitor: "/support/01_07_monitor_pulse.svg",
+  analysis: "/support/02_01_analytics_circle.svg",
+  target: "/support/02_03_target.svg",
+  wrench: "/support/02_04_settings_wrench.svg",
+  rocket: "/support/02_05_rocket.svg",
+  checklist: "/support/02_07_checklist.svg",
+  mail: "/support/03_01_mail.svg",
+  telegram: "/support/03_02_paper_plane.svg",
+  phone: "/support/03_03_phone_chat.svg",
+  headset: "/support/03_04_support_headset.svg",
+  sync: "/support/03_05_sync_infinity.svg",
+  bug: "/support/03_07_bug.svg",
+  clock: "/support/04_04_clock.svg",
+  chat: "/support/04_06_chat.svg",
+  speedometer: "/support/05_01_speedometer.svg",
+  shieldCheck: "/support/05_04_shield_check.svg",
+  improve: "/support/05_07_goal.svg",
+  metricStability: "/support/06_01_percent_38.svg",
+  metricResponse: "/support/06_02_metric_14m.svg",
+  metricUptime: "/support/06_03_uptime_99_9.svg",
+  metricErrors: "/support/06_04_negative_27.svg",
+  metricGrowth: "/support/06_07_metric_480_plus.svg",
+  metricScore: "/support/06_08_score_98_7.svg",
+} as const;
+
 const crmAutomationCopy = {
   ru: {
     eyebrow: "code-art • CRM / Автоматизация",
@@ -685,8 +1061,15 @@ export function SystemModulePanel({
 }) {
   if (!activeItem) return null;
 
+  const fallbackItem = activeItem;
+  const fallbackModule = moduleCopy[language][fallbackItem];
+
   if (activeItem === "overview") {
     return <CorporateSitesPanel language={language} onClose={onClose} />;
+  }
+
+  if (activeItem === "aiSystems") {
+    return <AiIntegrationPanel language={language} onClose={onClose} />;
   }
 
   if (activeItem === "webArchitecture") {
@@ -701,7 +1084,11 @@ export function SystemModulePanel({
     return <CrmAutomationPanel language={language} onClose={onClose} />;
   }
 
-  const activeModule = moduleCopy[language][activeItem];
+  if (activeItem === "contact") {
+    return <SupportDevelopmentPanel language={language} onClose={onClose} />;
+  }
+
+  const activeModule = fallbackModule;
   const performancePolyline = performancePoints
     .map(([x, y]) => `${x},${y}`)
     .join(" ");
@@ -709,7 +1096,7 @@ export function SystemModulePanel({
 
   return (
     <section
-      key={`${language}-${activeItem}`}
+      key={`${language}-${fallbackItem}`}
       className="system-module-panel"
       aria-label={activeModule.title}
     >
@@ -745,7 +1132,7 @@ export function SystemModulePanel({
             <span className="system-module-icon-frame" aria-hidden="true">
               <Image
                 className="system-module-icon-image"
-                src={navIconSources[activeItem]}
+                src={navIconSources[fallbackItem]}
                 alt=""
                 width={120}
                 height={120}
@@ -850,7 +1237,7 @@ export function SystemModulePanel({
                 key={index}
                 style={
                   {
-                    "--wave": `${18 + ((index * 13 + activeItem.length * 7) % 54)}%`,
+                    "--wave": `${18 + ((index * 13 + fallbackItem.length * 7) % 54)}%`,
                   } as CSSProperties
                 }
               />
@@ -866,6 +1253,621 @@ export function SystemModulePanel({
         <i aria-hidden="true" />
       </button>
     </section>
+  );
+}
+
+function AiIntegrationPanel({
+  language,
+  onClose,
+}: {
+  language: Language;
+  onClose: () => void;
+}) {
+  const copy = aiIntegrationCopy[language];
+
+  return (
+    <section
+      key={`ai-integration-${language}`}
+      className="system-module-panel ai-integration-panel"
+      aria-label={copy.title}
+    >
+      <span className="system-module-corner system-module-corner-tl" />
+      <span className="system-module-corner system-module-corner-tr" />
+      <span className="system-module-corner system-module-corner-bl" />
+      <span className="system-module-corner system-module-corner-br" />
+
+      <button
+        className="system-module-close"
+        type="button"
+        aria-label={copy.closeLabel}
+        onClick={onClose}
+      >
+        <span />
+        <span />
+      </button>
+
+      <div className="ai-integration-shell">
+        <header className="ai-integration-copy">
+          <p className="ai-integration-eyebrow">{copy.eyebrow}</p>
+          <h2>
+            <span>{copy.accent}</span>
+            {copy.title.replace(copy.accent, "")}
+          </h2>
+          <p className="ai-integration-lead">{copy.lead}</p>
+          <p className="ai-integration-description">{copy.description}</p>
+
+          <div className="ai-benefit-grid">
+            {copy.benefits.map(([title, text, icon]) => (
+              <article key={title} className="ai-benefit-card">
+                <AiIcon icon={icon} className="ai-symbol" />
+                <strong>{title}</strong>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </header>
+
+        <div className="ai-network-stage" aria-hidden="true">
+          <span className="ai-starfield" />
+          <span className="ai-nebula ai-nebula-a" />
+          <span className="ai-nebula ai-nebula-b" />
+          <span className="ai-radial-grid" />
+          <span className="ai-network-halo ai-network-halo-a" />
+          <span className="ai-network-halo ai-network-halo-b" />
+          <span className="ai-network-halo ai-network-halo-c" />
+
+          <svg className="ai-network-lines" viewBox="0 0 900 560" preserveAspectRatio="none">
+            <path d="M88 92 C220 64 260 194 424 230" />
+            <path d="M72 202 C204 184 268 280 430 276" />
+            <path d="M98 332 C232 320 282 292 430 304" />
+            <path d="M132 444 C254 408 304 350 438 326" />
+            <path d="M812 86 C682 78 646 196 474 228" />
+            <path d="M830 212 C696 214 640 268 474 278" />
+            <path d="M806 342 C682 334 638 312 474 306" />
+            <path d="M780 462 C656 430 616 352 468 326" />
+          </svg>
+
+          <div className="ai-hero-image-wrap">
+            <span className="ai-brain-glow" />
+            <Image
+              className="ai-brain-image"
+              src="/ai/1.png"
+              alt=""
+              width={620}
+              height={520}
+              unoptimized
+            />
+          </div>
+
+          <div className="ai-data-rain">
+            {Array.from({ length: 28 }, (_, index) => (
+              <span
+                key={index}
+                style={
+                  {
+                    "--x": `${(index * 37) % 100}%`,
+                    "--h": `${18 + (index % 5) * 8}%`,
+                    "--delay": `${(index % 7) * 0.16}s`,
+                  } as CSSProperties
+                }
+              />
+            ))}
+          </div>
+
+          {Array.from({ length: 72 }, (_, index) => (
+            <span
+              key={index}
+              className="ai-orb-node"
+              style={
+                {
+                  "--angle": `${index * 13}deg`,
+                  "--radius": `${28 + (index % 7) * 6}%`,
+                  "--size": `${0.16 + (index % 4) * 0.035}rem`,
+                } as CSSProperties
+              }
+            />
+          ))}
+
+          {copy.featureCards.map(([id, title, text, value, icon]) => (
+            <article key={id} className={`ai-feature-card ai-feature-${id}`}>
+              <AiIcon icon={icon} className="ai-symbol" />
+              <div>
+                <strong>{title}</strong>
+                <p>{text}</p>
+                {value && <em>{value}</em>}
+              </div>
+            </article>
+          ))}
+
+          {copy.chips.map(([label, value], index) => (
+            <div key={label} className={`ai-chip ai-chip-${index + 1}`}>
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
+        </div>
+
+        <button className="ai-integration-action" type="button">
+          <strong>{copy.cta}</strong>
+          <span aria-hidden="true">→</span>
+        </button>
+
+        <div className="ai-integration-bottom">
+          <section className="ai-bottom-card ai-capabilities-card">
+            <h3>{copy.capabilitiesTitle}</h3>
+            <div>
+              <ul>
+                {copy.capabilities.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <span className="ai-mini-orbit" aria-hidden="true" />
+            </div>
+          </section>
+
+          <section className="ai-bottom-card ai-data-card">
+            <h3>{copy.dataTitle}</h3>
+            <div>
+              {copy.sources.map((source, index) => (
+                <span key={source}>
+                  <AiIcon
+                    icon={aiSourceIconKeys[index] ?? "site"}
+                    className="ai-source-symbol"
+                  />
+                  <small>{source}</small>
+                </span>
+              ))}
+            </div>
+          </section>
+
+          <section className="ai-bottom-card ai-result-card">
+            <h3>{copy.resultTitle}</h3>
+            <div>
+              {copy.results.map(([value, label]) => (
+                <span key={label}>
+                  <strong>{value}</strong>
+                  <small>{label}</small>
+                </span>
+              ))}
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AiIcon({
+  icon,
+  className,
+}: {
+  icon: string;
+  className: string;
+}) {
+  const source =
+    aiIconSources[icon as keyof typeof aiIconSources] ?? aiIconSources.brain;
+
+  return (
+    <span className={className} aria-hidden="true">
+      <Image
+        className="ai-icon-image"
+        src={source}
+        alt=""
+        width={96}
+        height={96}
+        unoptimized
+      />
+    </span>
+  );
+}
+
+function SupportDevelopmentPanel({
+  language,
+  onClose,
+}: {
+  language: Language;
+  onClose: () => void;
+}) {
+  const copy = supportDevelopmentCopy[language];
+  const labels =
+    language === "ru"
+      ? {
+          responseRows: [
+            ["Цель (SLA)", "30 мин"],
+            ["Выполнено", "98.7%"],
+          ],
+          fixedRows: [
+            ["Ошибки", "82"],
+            ["Улучшения", "41"],
+            ["Прочее", "14"],
+          ],
+          currentRelease: "Текущий релиз",
+          nextRelease: "Следующий релиз",
+          uptimeRows: [
+            ["Инциденты", "2"],
+            ["Доступность", "99.9%"],
+            ["Простой", "0ч 32м"],
+          ],
+        }
+      : {
+          responseRows: [
+            ["SLA target", "30 min"],
+            ["Completed", "98.7%"],
+          ],
+          fixedRows: [
+            ["Bugs", "82"],
+            ["Improvements", "41"],
+            ["Other", "14"],
+          ],
+          currentRelease: "Current release",
+          nextRelease: "Next release",
+          uptimeRows: [
+            ["Incidents", "2"],
+            ["Availability", "99.9%"],
+            ["Downtime", "0h 32m"],
+          ],
+        };
+
+  return (
+    <section
+      key={`support-development-${language}`}
+      className="system-module-panel support-panel"
+      aria-label={copy.title}
+    >
+      <span className="system-module-corner system-module-corner-tl" />
+      <span className="system-module-corner system-module-corner-tr" />
+      <span className="system-module-corner system-module-corner-bl" />
+      <span className="system-module-corner system-module-corner-br" />
+
+      <button
+        className="system-module-close"
+        type="button"
+        aria-label={copy.closeLabel}
+        onClick={onClose}
+      >
+        <span />
+        <span />
+      </button>
+
+      <div className="support-shell">
+        <header className="support-copy">
+          <p className="support-eyebrow">{copy.eyebrow}</p>
+          <h2>{copy.title}</h2>
+          <p className="support-lead">{copy.lead}</p>
+          <p className="support-description">{copy.description}</p>
+
+          <div className="support-benefits">
+            {copy.benefits.map(([title, text, icon]) => (
+              <article key={title}>
+                <SupportIcon icon={icon} className="support-small-icon" />
+                <strong>{title}</strong>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+
+          <section className="support-contact-card">
+            <h3>{copy.contactsTitle}</h3>
+            <div>
+              {copy.contacts.map(([title, text, icon]) => (
+                <span key={title}>
+                  <SupportIcon icon={icon} className="support-contact-icon" />
+                  <strong>{title}</strong>
+                  <small>{text}</small>
+                </span>
+              ))}
+            </div>
+          </section>
+
+          <div className="support-actions">
+            <button type="button">
+              {copy.primaryAction}
+              <span aria-hidden="true">→</span>
+            </button>
+            <button type="button">
+              <SupportIcon icon="checklist" className="support-action-icon" />
+              {copy.secondaryAction}
+            </button>
+          </div>
+        </header>
+
+        <div className="support-stage" aria-hidden="true">
+          <span className="support-space support-space-a" />
+          <span className="support-space support-space-b" />
+          <span className="support-orbit support-orbit-a" />
+          <span className="support-orbit support-orbit-b" />
+          <span className="support-orbit support-orbit-c" />
+          <span className="support-orbit support-orbit-d" />
+          <span className="support-beam" />
+          <span className="support-floor" />
+
+          <div className="support-cycle">
+            <div className="support-core">
+              <SupportIcon icon="infinity" className="support-core-icon" />
+            </div>
+            {copy.process.map(([title, , icon], index) => (
+              <span
+                key={title}
+                className={`support-cycle-step support-cycle-step-${index + 1}`}
+              >
+                <SupportIcon icon={icon} className="support-cycle-icon" />
+                <strong>{title}</strong>
+              </span>
+            ))}
+          </div>
+
+          <article className="support-widget support-widget-requests">
+            <h3>{copy.requestsTitle}</h3>
+            <div className="support-widget-main">
+              <strong>23</strong>
+              <span>{copy.requestsToday}</span>
+              <em>-12%</em>
+            </div>
+            <SupportMiniChart variant="line" />
+            <div className="support-widget-rows">
+              {copy.requestsRows.map(([label, value]) => (
+                <span key={label}>
+                  <small>{label}</small>
+                  <b>{value}</b>
+                </span>
+              ))}
+            </div>
+          </article>
+
+          <article className="support-widget support-widget-response">
+            <h3>{copy.responseTitle}</h3>
+            <div className="support-widget-main">
+              <strong>{copy.responseValue}</strong>
+              <span>{copy.responseText}</span>
+              <em>-18%</em>
+            </div>
+            <SupportMiniChart variant="bars" />
+            <div className="support-widget-rows">
+              {labels.responseRows.map(([label, value]) => (
+                <span key={label}>
+                  <small>{label}</small>
+                  <b>{value}</b>
+                </span>
+              ))}
+            </div>
+          </article>
+
+          <article className="support-widget support-widget-fixed">
+            <h3>{copy.fixedTitle}</h3>
+            <div className="support-widget-main">
+              <strong>{copy.fixedValue}</strong>
+              <span>{copy.fixedText}</span>
+              <em>+27%</em>
+            </div>
+            <SupportMiniChart variant="stairs" />
+            <div className="support-widget-rows">
+              {labels.fixedRows.map(([label, value]) => (
+                <span key={label}>
+                  <small>{label}</small>
+                  <b>{value}</b>
+                </span>
+              ))}
+            </div>
+          </article>
+
+          <article className="support-widget support-widget-health">
+            <h3>{copy.healthTitle}</h3>
+            <div className="support-health-head">
+              <SupportIcon icon="heart" className="support-card-icon" />
+              <span>{copy.healthValue}</span>
+              <SupportMiniChart variant="pulse" />
+            </div>
+            <div className="support-widget-rows">
+              {copy.healthRows.map(([label, value]) => (
+                <span key={label}>
+                  <small>{label}</small>
+                  <b>{value}</b>
+                </span>
+              ))}
+            </div>
+          </article>
+
+          <article className="support-widget support-widget-release">
+            <h3>{copy.releaseTitle}</h3>
+            <div className="support-release-flow">
+              {copy.releaseSteps.map((step, index) => (
+                <span key={step} className={index === 4 ? "is-live" : undefined}>
+                  <SupportIcon
+                    icon={index === 4 ? "sync" : index === 1 ? "checklist" : "rocket"}
+                    className="support-release-icon"
+                  />
+                  <small>{step}</small>
+                </span>
+              ))}
+            </div>
+            <div className="support-release-meta">
+              <span>
+                <small>{labels.currentRelease}</small>
+                <strong>v2.4.0</strong>
+              </span>
+              <span>
+                <small>{labels.nextRelease}</small>
+                <strong>v2.4.1</strong>
+              </span>
+            </div>
+          </article>
+
+          <article className="support-widget support-widget-roadmap">
+            <h3>{copy.roadmapTitle}</h3>
+            <div className="support-timeline">
+              {copy.roadmap.map(([quarter, title, value]) => (
+                <span key={title}>
+                  <i />
+                  <small>{quarter}</small>
+                  <b>{title}</b>
+                  <em>{value}</em>
+                </span>
+              ))}
+            </div>
+          </article>
+
+          <article className="support-widget support-widget-uptime">
+            <h3>{copy.uptimeTitle}</h3>
+            <div className="support-widget-main">
+              <strong>{copy.uptimeValue}</strong>
+              <span>{copy.uptimeText}</span>
+            </div>
+            <SupportMiniChart variant="uptime" />
+            <div className="support-widget-rows">
+              {labels.uptimeRows.map(([label, value]) => (
+                <span key={label}>
+                  <small>{label}</small>
+                  <b>{value}</b>
+                </span>
+              ))}
+            </div>
+          </article>
+
+          <article className="support-widget support-widget-backlog">
+            <h3>{copy.backlogTitle}</h3>
+            <div className="support-widget-rows support-backlog-rows">
+              {copy.backlogRows.map(([label, value], index) => (
+                <span key={label}>
+                  <i className={`support-dot support-dot-${index + 1}`} />
+                  <small>{label}</small>
+                  <b>{value}</b>
+                </span>
+              ))}
+            </div>
+          </article>
+        </div>
+
+        <section className="support-process-strip">
+          <h3>{copy.processTitle}</h3>
+          <div>
+            {copy.process.map(([title, text, icon], index) => (
+              <article key={title}>
+                <span>{index + 1}</span>
+                <SupportIcon icon={icon} className="support-process-icon" />
+                <strong>{title}</strong>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="support-metrics-strip">
+          <h3>{copy.metricsTitle}</h3>
+          <div>
+            {copy.metrics.map(([value, label, icon]) => (
+              <article key={label}>
+                <SupportIcon icon={icon} className="support-metric-icon" />
+                <strong>{value}</strong>
+                <p>{label}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
+    </section>
+  );
+}
+
+function SupportMiniChart({ variant }: { variant: string }) {
+  const bars =
+    variant === "stairs"
+      ? ["18%", "26%", "36%", "48%", "58%", "72%", "82%"]
+      : variant === "uptime"
+        ? ["92%", "94%", "93%", "95%", "96%", "98%", "97%", "99%", "98%", "99%"]
+        : ["34%", "56%", "42%", "70%", "48%", "62%", "38%", "74%", "52%", "80%"];
+
+  if (variant === "uptime") {
+    return (
+      <div className="support-chart support-chart-uptime">
+        <span className="support-uptime-live" />
+        <div className="support-uptime-line">
+          {bars.map((height, index) => (
+            <span
+              key={`${height}-${index}`}
+              style={
+                {
+                  "--support-bar": height,
+                  "--support-delay": `${index * 95}ms`,
+                } as CSSProperties
+              }
+            />
+          ))}
+        </div>
+        <div className="support-uptime-rail">
+          {Array.from({ length: 18 }, (_, index) => (
+            <i
+              key={index}
+              style={{ "--support-delay": `${index * 75}ms` } as CSSProperties}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (variant === "line" || variant === "pulse") {
+    return (
+      <svg className={`support-chart support-chart-${variant}`} viewBox="0 0 180 54">
+        <path
+          d="M2 42 C16 38 22 28 34 30 C48 16 54 40 68 34 C82 50 90 44 102 36 C118 24 126 34 138 30 C154 22 158 38 178 26"
+          pathLength={1}
+        >
+          <animate
+            attributeName="stroke-dashoffset"
+            values="1;0;0;1"
+            dur={variant === "pulse" ? "2.4s" : "3.2s"}
+            repeatCount="indefinite"
+          />
+          <animate
+            attributeName="opacity"
+            values="0.35;1;0.72;1"
+            dur={variant === "pulse" ? "1.6s" : "2.2s"}
+            repeatCount="indefinite"
+          />
+        </path>
+      </svg>
+    );
+  }
+
+  return (
+    <div className={`support-chart support-chart-${variant}`}>
+      {bars.map((height, index) => (
+        <span
+          key={`${height}-${index}`}
+          style={
+            {
+              "--support-bar": height,
+              "--support-delay": `${index * 120}ms`,
+            } as CSSProperties
+          }
+        />
+      ))}
+    </div>
+  );
+}
+
+function SupportIcon({
+  icon,
+  className,
+}: {
+  icon: string;
+  className: string;
+}) {
+  const source =
+    supportIconSources[icon as keyof typeof supportIconSources] ??
+    supportIconSources.infinity;
+
+  return (
+    <span className={className} aria-hidden="true">
+      <Image
+        className="support-icon-image"
+        src={source}
+        alt=""
+        width={96}
+        height={96}
+        unoptimized
+      />
+    </span>
   );
 }
 

@@ -1,0 +1,8 @@
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          1088
+- Dir:          C:\Users\Руслан-ПК\Desktop\CodeArtLending\code-art
+- Log:          .next\dev\logs\next-development.log
+
+Run taskkill /PID 1088 /F to stop it.
