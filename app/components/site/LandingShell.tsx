@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 
 import {
@@ -7,9 +8,24 @@ import {
   isLanguage,
   type Language,
 } from "../../lib/i18n";
-import { SceneCanvas } from "./SceneCanvas";
-import { SystemModulePanel } from "./SystemModulePanel";
 import { SystemNavCard, type NavItemId } from "./SystemNavCard";
+
+const SceneCanvas = dynamic(
+  () => import("./SceneCanvas").then((module) => module.SceneCanvas),
+  {
+    ssr: false,
+    loading: () => <SceneCanvasFallback />,
+  }
+);
+
+const SystemModulePanel = dynamic(
+  () =>
+    import("./SystemModulePanel").then((module) => module.SystemModulePanel),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
 
 const sceneShiftStep = 0.85;
 const maxSceneOffset = 2.55;
@@ -32,6 +48,7 @@ export function LandingShell() {
   const [activeNavItem, setActiveNavItem] = useState<NavItemId | null>(null);
   const [isMobileScene, setIsMobileScene] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [shouldLoadScene, setShouldLoadScene] = useState(false);
 
   const shiftScene = useCallback((direction: -1 | 1) => {
     setSceneOffsetX((currentOffset) => {
@@ -108,6 +125,25 @@ export function LandingShell() {
   }, []);
 
   useEffect(() => {
+    const loadScene = () => setShouldLoadScene(true);
+    const isMobileViewport = window.matchMedia(mobileMediaQuery).matches;
+    const sceneDelay = isMobileViewport ? 4200 : 1600;
+    const timeoutId = window.setTimeout(loadScene, sceneDelay);
+
+    window.addEventListener("pointerdown", loadScene, {
+      once: true,
+      passive: true,
+    });
+    window.addEventListener("keydown", loadScene, { once: true });
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.removeEventListener("pointerdown", loadScene);
+      window.removeEventListener("keydown", loadScene);
+    };
+  }, []);
+
+  useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
 
@@ -131,13 +167,17 @@ export function LandingShell() {
               : "Details"}
         </button>
       </div>
-      <SceneCanvas
-        sceneOffsetX={isMobileScene ? 0 : sceneOffsetX}
-        language={language}
-        activeNavItem={activeNavItem}
-        onActiveNavItemChange={changeActiveNavItem}
-        isMobileScene={isMobileScene}
-      />
+      {shouldLoadScene ? (
+        <SceneCanvas
+          sceneOffsetX={isMobileScene ? 0 : sceneOffsetX}
+          language={language}
+          activeNavItem={activeNavItem}
+          onActiveNavItemChange={changeActiveNavItem}
+          isMobileScene={isMobileScene}
+        />
+      ) : (
+        <SceneCanvasFallback />
+      )}
       <SystemNavCard
         language={language}
         onLanguageChange={changeLanguage}
@@ -145,11 +185,24 @@ export function LandingShell() {
         onActiveItemChange={changeActiveNavItem}
         onNavItemSelect={closeMobileNavigation}
       />
-      <SystemModulePanel
-        language={language}
-        activeItem={activeNavItem}
-        onClose={() => changeActiveNavItem(null)}
-      />
+      {activeNavItem ? (
+        <SystemModulePanel
+          language={language}
+          activeItem={activeNavItem}
+          onClose={() => changeActiveNavItem(null)}
+        />
+      ) : null}
     </main>
+  );
+}
+
+function SceneCanvasFallback() {
+  return (
+    <div className="scene-canvas scene-canvas-fallback" aria-hidden="true">
+      <div className="scene-canvas-fallback-core">
+        <span>code-art</span>
+        <i />
+      </div>
+    </div>
   );
 }

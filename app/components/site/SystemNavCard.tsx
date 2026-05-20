@@ -575,16 +575,7 @@ export function SystemNavCard({
 
       <div className="system-nav-brand">
         <span className="system-nav-logo-mark" aria-hidden="true">
-          <Image
-            className="system-nav-brand-logo"
-            src="/logo/code_art_logo_flow_transparent.gif"
-            alt=""
-            width={80}
-            height={80}
-            priority
-            loading="eager"
-            unoptimized
-          />
+          <i />
         </span>
         <div className="system-nav-brand-copy">
           <p className="system-nav-brand-name">code-art</p>
@@ -638,7 +629,6 @@ export function SystemNavCard({
                   alt=""
                   width={96}
                   height={96}
-                  unoptimized
                 />
               </span>
               <span className="system-nav-item-copy">
@@ -664,7 +654,6 @@ export function SystemNavCard({
                 alt=""
                 width={72}
                 height={72}
-                unoptimized
                 aria-hidden="true"
               />
               <span>{benefit.title}</span>
