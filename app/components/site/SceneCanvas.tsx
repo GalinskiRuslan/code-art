@@ -15,11 +15,13 @@ export function SceneCanvas({
   language,
   activeNavItem,
   onActiveNavItemChange,
+  isMobileScene = false,
 }: {
   sceneOffsetX: number;
   language: Language;
   activeNavItem: NavItemId | null;
   onActiveNavItemChange: (item: NavItemId | null) => void;
+  isMobileScene?: boolean;
 }) {
   const copy = uiCopy[language];
   const sceneState = useMemo<SceneState>(
@@ -42,9 +44,12 @@ export function SceneCanvas({
     <>
       <div className="scene-canvas">
         <Canvas
-          shadows
-          dpr={[1, 1.5]}
-          camera={{ position: [0, 1.35, 8.6], fov: 34 }}
+          shadows={!isMobileScene}
+          dpr={isMobileScene ? [1, 1] : [1, 1.5]}
+          camera={{
+            position: isMobileScene ? [0, 2.1, 9.4] : [0, 1.35, 8.6],
+            fov: isMobileScene ? 42 : 34,
+          }}
         >
           <color attach="background" args={["#09070b"]} />
           <fog attach="fog" args={["#09070b", 10, 24]} />
@@ -61,6 +66,7 @@ export function SceneCanvas({
               language={language}
               activeNavItem={activeNavItem}
               onActiveNavItemChange={onActiveNavItemChange}
+              isMobileScene={isMobileScene}
             />
           </Suspense>
         </Canvas>

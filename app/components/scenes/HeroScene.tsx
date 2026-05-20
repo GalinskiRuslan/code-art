@@ -114,12 +114,14 @@ export function HeroScene({
   language,
   activeNavItem,
   onActiveNavItemChange,
+  isMobileScene = false,
 }: {
   sceneState: SceneState;
   sceneOffsetX: number;
   language: Language;
   activeNavItem: NavItemId | null;
   onActiveNavItemChange: (item: NavItemId | null) => void;
+  isMobileScene?: boolean;
 }) {
   const groupRef = useRef<ThreeGroup | null>(null);
   const longPanels = [
@@ -161,11 +163,11 @@ export function HeroScene({
 
     const visibility = sceneState.heroProgress;
     group.visible = visibility > 0.001;
-    group.position.x = THREE.MathUtils.lerp(group.position.x, sceneOffsetX, 0.09);
-    group.position.y = THREE.MathUtils.lerp(-1.4, 0.9, visibility);
-    group.position.z = THREE.MathUtils.lerp(24, 0, visibility);
+    group.position.x = THREE.MathUtils.lerp(group.position.x, isMobileScene ? 0 : sceneOffsetX, 0.09);
+    group.position.y = THREE.MathUtils.lerp(-1.4, isMobileScene ? 0.18 : 0.9, visibility);
+    group.position.z = THREE.MathUtils.lerp(24, isMobileScene ? 1.4 : 0, visibility);
     group.rotation.y = THREE.MathUtils.lerp(-0.25, 0, visibility);
-    group.scale.setScalar(THREE.MathUtils.lerp(0.86, 1, visibility));
+    group.scale.setScalar(THREE.MathUtils.lerp(0.86, isMobileScene ? 0.86 : 1, visibility));
   });
 
   return (
@@ -173,29 +175,33 @@ export function HeroScene({
       <Stars
         radius={120}
         depth={60}
-        count={1800}
-        factor={2}
+        count={isMobileScene ? 520 : 1800}
+        factor={isMobileScene ? 1.25 : 2}
         saturation={0}
         fade
       />
       {/* <HeroAtmosphere /> */}
       <Sparkles
-        count={90}
-        scale={[22, 10, 18]}
+        count={isMobileScene ? 24 : 90}
+        scale={isMobileScene ? [11, 6, 10] : [22, 10, 18]}
         position={[0, 1, -8]}
-        size={2}
-        speed={0.14}
+        size={isMobileScene ? 1.4 : 2}
+        speed={isMobileScene ? 0.06 : 0.14}
         color="#d7eeff"
       />
       <DigitalFloor />
       <SceneHaze />
       <AICore />
-      <VoxelCube position={[-4.8, 1.45, -9.4]} scale={1.1} />
-      <FloatingPanels
-        language={language}
-        activeItem={activeNavItem}
-        onActiveItemChange={onActiveNavItemChange}
-      />
+      {!isMobileScene ? (
+        <>
+          <VoxelCube position={[-4.8, 1.45, -9.4]} scale={1.1} />
+          <FloatingPanels
+            language={language}
+            activeItem={activeNavItem}
+            onActiveItemChange={onActiveNavItemChange}
+          />
+        </>
+      ) : null}
     </group>
   );
 }

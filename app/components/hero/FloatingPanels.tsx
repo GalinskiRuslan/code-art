@@ -9,6 +9,7 @@ import * as THREE from "three";
 
 import { floatingPanelUiCopy } from "../../lib/hero-content";
 import type { Language } from "../../lib/i18n";
+import { getWhatsAppHref } from "../../lib/whatsapp";
 import {
   moduleCopy,
   navIconSources,
@@ -479,11 +480,16 @@ export function FloatingPanels({
               </div>
             </div>
 
-            <button className="system-module-action" type="button">
+            <a
+              className="system-module-action"
+              href={getWhatsAppHref(language, activeModule.action)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span aria-hidden="true">&lt;&gt;</span>
               <strong>{activeModule.action}</strong>
               <i aria-hidden="true" />
-            </button>
+            </a>
           </section>
         </Html>
       ) : null}

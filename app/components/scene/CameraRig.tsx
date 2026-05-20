@@ -8,9 +8,11 @@ import type { SceneState } from "../../hooks/useSceneState";
 export function CameraRig({
   sceneState,
   sceneOffsetX,
+  isMobileScene = false,
 }: {
   sceneState: SceneState;
   sceneOffsetX: number;
+  isMobileScene?: boolean;
 }) {
   const { camera } = useThree();
   const targetPosition = new THREE.Vector3();
@@ -33,16 +35,25 @@ export function CameraRig({
         ? sceneState.transitionProgress
         : sceneState.finaleProgress;
 
-    heroPosition.set(
-      4.95 + sceneOffsetX * 0.42 + Math.sin(time * 0.16) * 1.05,
-      8.25 + Math.sin(time * 0.21 + 0.7) * 0.36,
-      8 + Math.cos(time * 0.13) * 0.72
-    );
-    heroLookAt.set(
-      0.4 + sceneOffsetX,
-      1.98 + Math.sin(time * 0.32) * 0.06,
-      -9.3
-    );
+    if (isMobileScene) {
+      heroPosition.set(
+        0.2 + Math.sin(time * 0.12) * 0.18,
+        6.1 + Math.sin(time * 0.18 + 0.7) * 0.14,
+        10.4 + Math.cos(time * 0.11) * 0.18
+      );
+      heroLookAt.set(0.05, 1.55, -9.4);
+    } else {
+      heroPosition.set(
+        4.95 + sceneOffsetX * 0.42 + Math.sin(time * 0.16) * 1.05,
+        8.25 + Math.sin(time * 0.21 + 0.7) * 0.36,
+        8 + Math.cos(time * 0.13) * 0.72
+      );
+      heroLookAt.set(
+        0.4 + sceneOffsetX,
+        1.98 + Math.sin(time * 0.32) * 0.06,
+        -9.3
+      );
+    }
 
     labPosition.set(-26, 2.2, 9.5 - sceneState.labProgress * 1.8);
     labLookAt.set(-20.5, 15, -6.5);

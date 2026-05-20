@@ -57,6 +57,14 @@ a {
     linear-gradient(180deg, #09070b 0%, #120d15 48%, #09070b 100%);
 }
 
+.mobile-nav-bar {
+  display: none;
+}
+
+.mobile-nav-toggle {
+  font: inherit;
+}
+
 .seo-content {
   position: relative;
   z-index: 2;
@@ -3472,7 +3480,7 @@ a {
   gap: 0.52rem;
 }
 
-.support-actions button {
+.support-actions a {
   display: inline-grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -3490,7 +3498,7 @@ a {
   box-shadow: 0 0 16px rgba(132, 83, 255, 0.2);
 }
 
-.support-actions button:first-child {
+.support-actions a:first-child {
   border-color: rgba(167, 131, 255, 0.86);
   background: linear-gradient(180deg, rgba(119, 56, 255, 0.78), rgba(70, 31, 176, 0.72));
   box-shadow:
@@ -8430,7 +8438,7 @@ a {
   gap: 0.34rem;
 }
 
-.uiux-cta button {
+.uiux-cta a {
   display: flex;
   min-height: 2rem;
   align-items: center;
@@ -8450,7 +8458,7 @@ a {
   cursor: pointer;
 }
 
-.uiux-cta button:last-child {
+.uiux-cta a:last-child {
   background: rgba(8, 7, 18, 0.42);
   box-shadow: none;
 }
@@ -9779,29 +9787,120 @@ a {
 }
 
 @media (max-width: 900px) {
+  .mobile-nav-bar {
+    position: fixed;
+    top: 0.72rem;
+    left: 0.72rem;
+    right: 0.72rem;
+    z-index: 14;
+    display: flex;
+    min-height: 3.15rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem;
+    border: 1px solid rgba(206, 190, 255, 0.24);
+    border-radius: 14px;
+    background:
+      radial-gradient(circle at 0% 50%, rgba(167, 131, 255, 0.18), transparent 42%),
+      rgba(8, 7, 18, 0.48);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.035) inset,
+      0 0 26px rgba(112, 64, 255, 0.22),
+      0 16px 42px rgba(0, 0, 0, 0.28);
+    padding: 0.45rem 0.5rem 0.45rem 0.9rem;
+    backdrop-filter: blur(16px);
+  }
+
+  .mobile-nav-bar span {
+    color: rgba(255, 251, 255, 0.94);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .mobile-nav-toggle {
+    display: inline-flex;
+    min-height: 2.22rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(179, 147, 255, 0.62);
+    border-radius: 10px;
+    background:
+      linear-gradient(180deg, rgba(119, 56, 255, 0.46), rgba(38, 23, 84, 0.36)),
+      rgba(10, 8, 24, 0.34);
+    color: #f3deff;
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    padding: 0 0.82rem;
+    box-shadow: 0 0 18px rgba(179, 147, 255, 0.24);
+  }
+
   .system-nav-card {
-    top: 0.75rem;
+    top: 4.25rem;
     left: 0.75rem;
     width: min(100% - 1.5rem, 25.8rem);
-    max-height: min(84svh, 760px);
-    transform: none;
-    border-radius: 24px;
-    padding: 1rem;
+    max-height: min(73svh, 680px);
+    transform: translateY(-0.65rem) scale(0.98);
+    border-color: rgba(206, 190, 255, 0.3);
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at 0% 42%, rgba(165, 126, 255, 0.16), transparent 25%),
+      radial-gradient(circle at 100% 44%, rgba(243, 222, 255, 0.08), transparent 30%),
+      linear-gradient(180deg, rgba(15, 13, 25, 0.58), rgba(6, 7, 15, 0.42));
+    opacity: 0;
+    padding: 0.9rem;
+    pointer-events: none;
+    visibility: hidden;
+    backdrop-filter: blur(18px);
     overflow-y: auto;
+    transition:
+      opacity 220ms ease,
+      transform 220ms ease,
+      border-color 220ms ease;
+  }
+
+  .site-shell.is-mobile-nav-open .system-nav-card {
+    transform: translateY(0) scale(1);
+    border-color: rgba(206, 190, 255, 0.46);
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .site-shell.has-active-module:not(.is-mobile-nav-open) .system-nav-card {
+    transform: translateY(-0.65rem) scale(0.98);
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .system-nav-card::before {
+    opacity: 0.52;
   }
 
   .system-nav-item {
-    min-height: 4rem;
-    grid-template-columns: 3.7rem minmax(0, 1fr) 1.25rem;
+    min-height: 3.6rem;
+    grid-template-columns: 3.25rem minmax(0, 1fr) 1.25rem;
+    background: rgba(9, 8, 22, 0.32);
   }
 
   .system-nav-brand {
-    grid-template-columns: 3.65rem minmax(0, 1fr) auto;
-    gap: 0.75rem;
+    grid-template-columns: 2.9rem minmax(0, 1fr) auto;
+    gap: 0.62rem;
   }
 
   .system-nav-logo-mark {
-    width: 3.1rem;
+    width: 2.5rem;
+  }
+
+  .system-nav-brand-subtitle,
+  .system-nav-intro,
+  .system-nav-benefits,
+  .system-nav-stats,
+  .system-nav-footer {
+    display: none;
   }
 
   .system-nav-benefits > div,
@@ -9836,6 +9935,33 @@ a {
     padding: 2.4rem 0.9rem 3rem;
   }
 
+  .scene-canvas {
+    opacity: 0.86;
+  }
+
+  .site-shell::after {
+    content: "";
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 1;
+    height: 42svh;
+    background: linear-gradient(180deg, transparent, rgba(4, 4, 12, 0.62));
+    pointer-events: none;
+  }
+
+  .scene-position-controls,
+  .scene-position-button {
+    display: none;
+  }
+
+  .system-nav-section-head {
+    margin-top: 0.3rem;
+  }
+
+  .system-nav-action {
+    margin-top: 0.2rem;
+  }
+
   .scene-position-button-left {
     left: 0.85rem;
     top: auto;
@@ -9855,17 +9981,24 @@ a {
   }
 
   .system-module-panel {
+    z-index: 13;
     left: 0.75rem;
     right: 0.75rem;
-    top: auto;
-    bottom: 1rem;
+    top: calc(0.72rem + 3.15rem + 0.35rem) !important;
+    bottom: auto !important;
     width: auto;
     min-height: 0;
-    max-height: 62svh;
-    transform: none;
+    max-height: calc(100svh - 4.75rem);
+    transform: none !important;
     transform-origin: center;
     animation: module-panel-mobile-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
     padding: 0.85rem;
+  }
+
+  .site-shell.is-mobile-nav-open .system-module-panel {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
   }
 
   .system-module-link-line {
@@ -10329,6 +10462,340 @@ a {
 
   .uiux-journey span:not(:last-child)::after {
     display: none;
+  }
+
+  .system-module-panel,
+  .corporate-sites-panel,
+  .ai-integration-panel,
+  .support-panel,
+  .crm-panel,
+  .uiux-panel {
+    height: 90vh !important;
+    height: 90svh !important;
+    max-height: 90vh !important;
+    max-height: 90svh !important;
+    gap: 1rem !important;
+    padding: 1rem !important;
+    scroll-padding: 1rem;
+  }
+
+  .corporate-sites-panel,
+  .ai-integration-panel,
+  .support-panel,
+  .crm-panel,
+  .uiux-panel {
+    align-content: start;
+  }
+
+  .system-module-top,
+  .corporate-sites-top,
+  .crm-top,
+  .uiux-top {
+    margin: 0 !important;
+    border-bottom: 1px solid rgba(243, 222, 255, 0.12);
+    padding: 0 2.45rem 0.75rem 0 !important;
+  }
+
+  .system-module-grid,
+  .corporate-sites-hero,
+  .corporate-sites-columns,
+  .corporate-sites-actions,
+  .ai-integration-shell,
+  .ai-integration-bottom,
+  .support-shell,
+  .support-benefits,
+  .support-actions,
+  .crm-hero,
+  .crm-benefits,
+  .crm-mid-grid,
+  .crm-lower-grid,
+  .crm-process > div,
+  .uiux-hero,
+  .uiux-principles,
+  .uiux-advantages,
+  .uiux-lower,
+  .uiux-workflow > div,
+  .uiux-journey > div,
+  .uiux-improvements,
+  .uiux-cta > div:last-child {
+    gap: 0.95rem !important;
+  }
+
+  .system-module-main,
+  .system-module-side,
+  .corporate-sites-copy,
+  .ai-integration-copy,
+  .support-copy,
+  .crm-copy,
+  .uiux-copy {
+    gap: 0.8rem !important;
+  }
+
+  .system-module-info-card,
+  .system-module-performance,
+  .system-module-metrics,
+  .system-module-model,
+  .system-module-status-card,
+  .corporate-sites-card,
+  .corporate-sites-stages,
+  .corporate-sites-metrics,
+  .ai-benefit-card,
+  .ai-bottom-card,
+  .support-contact-card,
+  .support-widget,
+  .support-process-strip,
+  .support-metrics-strip,
+  .crm-process,
+  .crm-mini-card,
+  .crm-scenarios,
+  .crm-integrations,
+  .crm-analytics,
+  .crm-kpi,
+  .uiux-principles article,
+  .uiux-advantages article,
+  .uiux-workflow,
+  .uiux-design-system,
+  .uiux-journey,
+  .uiux-analytics,
+  .uiux-improvements article,
+  .uiux-cta {
+    gap: 0.7rem !important;
+    padding: 0.9rem !important;
+  }
+
+  .corporate-sites-heading,
+  .system-module-heading {
+    align-items: start;
+    gap: 0.75rem !important;
+  }
+
+  .corporate-sites-card p,
+  .support-widget-rows span,
+  .support-release-meta span,
+  .support-timeline span,
+  .crm-process article,
+  .uiux-journey span {
+    padding-top: 0.62rem;
+    padding-bottom: 0.62rem;
+  }
+
+  .system-module-description,
+  .system-module-heading p,
+  .system-module-info-card p,
+  .corporate-sites-heading p,
+  .corporate-sites-description,
+  .corporate-sites-card p,
+  .ai-integration-lead,
+  .ai-integration-description,
+  .ai-benefit-card p,
+  .ai-bottom-card li,
+  .support-lead,
+  .support-description,
+  .support-benefits p,
+  .support-process-strip p,
+  .support-metrics-strip p,
+  .crm-subtitle,
+  .crm-description,
+  .crm-benefits p,
+  .crm-process p,
+  .crm-lower-grid p,
+  .uiux-subtitle,
+  .uiux-description,
+  .uiux-principles p,
+  .uiux-advantages p,
+  .uiux-lower p {
+    line-height: 1.6 !important;
+  }
+
+  .corporate-sites-card h3,
+  .support-contact-card h3,
+  .support-widget h3,
+  .support-process-strip h3,
+  .support-metrics-strip h3,
+  .crm-mini-card h3,
+  .crm-process h3,
+  .crm-lower-grid h3,
+  .uiux-advantages h3,
+  .uiux-lower h3 {
+    line-height: 1.3;
+  }
+
+  .corporate-sites-panel {
+    display: flex !important;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .corporate-sites-panel > * {
+    flex: 0 0 auto;
+  }
+
+  .corporate-sites-hero {
+    display: block !important;
+    width: 100%;
+    flex: 0 0 auto !important;
+    min-height: auto !important;
+    height: auto !important;
+    margin: 0 0 1rem !important;
+    padding: 0 !important;
+    overflow: visible;
+    clear: both;
+    contain: layout;
+  }
+
+  .corporate-sites-copy {
+    position: relative;
+    z-index: 3;
+    display: block !important;
+    width: 100%;
+    max-width: none;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible;
+  }
+
+  .corporate-sites-copy > * + * {
+    margin-top: 0.72rem !important;
+  }
+
+  .corporate-sites-kicker {
+    font-size: 0.62rem !important;
+    letter-spacing: 0.24em !important;
+  }
+
+  .corporate-sites-heading {
+    display: grid !important;
+    grid-template-columns: 2.85rem minmax(0, 1fr) !important;
+    align-items: start !important;
+  }
+
+  .corporate-sites-heading-icon {
+    width: 2.75rem !important;
+    border-radius: 10px;
+  }
+
+  .corporate-sites-heading h2 {
+    font-size: clamp(1.35rem, 6.3vw, 1.78rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .corporate-sites-heading p {
+    margin-top: 0.3rem !important;
+    font-size: 0.74rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .corporate-sites-description {
+    font-size: 0.74rem !important;
+    line-height: 1.62 !important;
+  }
+
+  .corporate-sites-visual {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    height: clamp(10.5rem, 48vw, 13rem) !important;
+    min-height: clamp(10.5rem, 48vw, 13rem) !important;
+    margin: 0.85rem 0 0 !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(197, 176, 255, 0.24);
+    border-radius: 14px;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(132, 91, 255, 0.16), transparent 58%),
+      rgba(7, 6, 17, 0.32);
+  }
+
+  .corporate-sites-animation-shell {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    -webkit-mask-image: radial-gradient(
+      ellipse at center,
+      #000 0 82%,
+      rgba(0, 0, 0, 0.64) 92%,
+      transparent 100%
+    ) !important;
+    mask-image: radial-gradient(
+      ellipse at center,
+      #000 0 82%,
+      rgba(0, 0, 0, 0.64) 92%,
+      transparent 100%
+    ) !important;
+  }
+
+  .corporate-sites-animation-frame {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .corporate-sites-animation-glow {
+    left: 8% !important;
+    right: 8% !important;
+    bottom: -12% !important;
+    height: 42% !important;
+  }
+
+  .corporate-sites-columns {
+    position: static !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+    width: 100%;
+    margin: 0.2rem 0 0 !important;
+    clear: both;
+    transform: none !important;
+    contain: layout paint;
+  }
+
+  .corporate-sites-card {
+    position: relative;
+    z-index: 4;
+    display: grid !important;
+    gap: 0.55rem !important;
+    min-height: auto !important;
+    overflow: hidden;
+  }
+
+  .corporate-sites-card h3 {
+    display: grid;
+    grid-template-columns: 1.55rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0;
+    padding-bottom: 0.58rem;
+    font-size: 0.66rem !important;
+    letter-spacing: 0.2em !important;
+  }
+
+  .corporate-sites-card > div {
+    display: grid;
+  }
+
+  .corporate-sites-card p {
+    grid-template-columns: 1.45rem minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 0.55rem !important;
+    min-height: 0;
+    padding: 0.5rem 0 !important;
+    font-size: 0.7rem !important;
+    line-height: 1.48 !important;
+  }
+
+  .corporate-sites-list-icon,
+  .corporate-sites-row-icon {
+    width: 1.35rem !important;
+  }
+
+  .corporate-sites-stages,
+  .corporate-sites-metrics,
+  .corporate-sites-actions,
+  .corporate-sites-footer {
+    position: relative;
+    z-index: 4;
   }
 
   .floating-panel-heading {

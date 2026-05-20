@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 
+import { getWhatsAppHref } from "../../lib/whatsapp";
+
 const navItems = ["Услуги", "Проекты", "Процесс", "О нас"];
 
 export function SiteHeader() {
@@ -15,9 +17,14 @@ export function SiteHeader() {
           </Link>
         ))}
       </nav>
-      <Link className="site-header-action" href="/">
+      <a
+        className="site-header-action"
+        href={getWhatsAppHref("ru", "Связаться")}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Связаться
-      </Link>
+      </a>
     </header>
   );
 }

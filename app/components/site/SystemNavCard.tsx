@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { Language } from "../../lib/i18n";
+import { getWhatsAppHref } from "../../lib/whatsapp";
 
 export const navItems = [
   { id: "overview", code: "01", icon: "target" },
@@ -550,14 +551,20 @@ export function SystemNavCard({
   onLanguageChange,
   activeItem,
   onActiveItemChange,
+  onNavItemSelect,
 }: {
   language: Language;
   onLanguageChange: (language: Language) => void;
   activeItem: NavItemId | null;
   onActiveItemChange: (item: NavItemId | null) => void;
+  onNavItemSelect?: () => void;
 }) {
   const copy = studioNavCopy[language];
   const services = studioServiceItems[language];
+  const selectNavItem = (item: NavItemId) => {
+    onActiveItemChange(item);
+    onNavItemSelect?.();
+  };
 
   return (
     <aside className="system-nav-card" aria-label={copy.ariaLabel}>
@@ -622,7 +629,7 @@ export function SystemNavCard({
               className={isActive ? "system-nav-item is-active" : "system-nav-item"}
               type="button"
               aria-current={isActive ? "page" : undefined}
-              onClick={() => onActiveItemChange(item.id)}
+              onClick={() => selectNavItem(item.id)}
             >
               <span className="system-nav-service-icon" aria-hidden="true">
                 <Image
@@ -682,15 +689,16 @@ export function SystemNavCard({
         ))}
       </section>
 
-      <button
+      <a
         className="system-nav-action"
-        type="button"
-        onClick={() => onActiveItemChange(activeItem ?? "services")}
+        href={getWhatsAppHref(language, copy.cta)}
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <span className="system-nav-action-mark" aria-hidden="true" />
         <strong>{copy.cta}</strong>
         <i aria-hidden="true">&gt;</i>
-      </button>
+      </a>
 
       <div className="system-nav-footer">
         <span>{copy.footer}</span>

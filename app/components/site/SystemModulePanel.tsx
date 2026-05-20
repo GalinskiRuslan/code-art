@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState, type CSSProperties } from "react";
 
 import type { Language } from "../../lib/i18n";
+import { getWhatsAppHref } from "../../lib/whatsapp";
 import { moduleCopy, navIconSources, type NavItemId } from "./SystemNavCard";
 
 const corporateSitesCopy = {
@@ -1247,11 +1248,16 @@ export function SystemModulePanel({
         </div>
       </div>
 
-      <button className="system-module-action" type="button">
+      <a
+        className="system-module-action"
+        href={getWhatsAppHref(language, activeModule.action)}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <span aria-hidden="true">&lt;&gt;</span>
         <strong>{activeModule.action}</strong>
         <i aria-hidden="true" />
-      </button>
+      </a>
     </section>
   );
 }
@@ -1387,10 +1393,15 @@ function AiIntegrationPanel({
           ))}
         </div>
 
-        <button className="ai-integration-action" type="button">
+        <a
+          className="ai-integration-action"
+          href={getWhatsAppHref(language, copy.cta)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <strong>{copy.cta}</strong>
           <span aria-hidden="true">→</span>
-        </button>
+        </a>
 
         <div className="ai-integration-bottom">
           <section className="ai-bottom-card ai-capabilities-card">
@@ -1560,14 +1571,22 @@ function SupportDevelopmentPanel({
           </section>
 
           <div className="support-actions">
-            <button type="button">
+            <a
+              href={getWhatsAppHref(language, copy.primaryAction)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {copy.primaryAction}
               <span aria-hidden="true">→</span>
-            </button>
-            <button type="button">
+            </a>
+            <a
+              href={getWhatsAppHref(language, copy.secondaryAction)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <SupportIcon icon="checklist" className="support-action-icon" />
               {copy.secondaryAction}
-            </button>
+            </a>
           </div>
         </header>
 
@@ -2014,7 +2033,12 @@ function CorporateSitesPanel({
       </section>
 
       <div className="corporate-sites-actions">
-        <button className="corporate-sites-primary" type="button">
+        <a
+          className="corporate-sites-primary"
+          href={getWhatsAppHref(language, copy.primaryAction)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <span className="corporate-sites-primary-icon" aria-hidden="true">
             <Image
               src={corporateIconSources.primaryAction}
@@ -2026,11 +2050,16 @@ function CorporateSitesPanel({
           </span>
           <strong>{copy.primaryAction}</strong>
           <i aria-hidden="true">&gt;</i>
-        </button>
-        <button className="corporate-sites-secondary" type="button">
+        </a>
+        <a
+          className="corporate-sites-secondary"
+          href={getWhatsAppHref(language, copy.secondaryAction)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <strong>{copy.secondaryAction}</strong>
           <i aria-hidden="true" />
-        </button>
+        </a>
       </div>
 
       <footer className="corporate-sites-footer">
@@ -2180,7 +2209,12 @@ function WebApplicationsPanel({
       </section>
 
       <div className="corporate-sites-actions">
-        <button className="corporate-sites-primary" type="button">
+        <a
+          className="corporate-sites-primary"
+          href={getWhatsAppHref(language, copy.primaryAction)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <span className="corporate-sites-primary-icon" aria-hidden="true">
             <Image
               src={webApplicationIconSources.primaryAction}
@@ -2192,11 +2226,16 @@ function WebApplicationsPanel({
           </span>
           <strong>{copy.primaryAction}</strong>
           <i aria-hidden="true">&gt;</i>
-        </button>
-        <button className="corporate-sites-secondary" type="button">
+        </a>
+        <a
+          className="corporate-sites-secondary"
+          href={getWhatsAppHref(language, copy.secondaryAction)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <strong>{copy.secondaryAction}</strong>
           <i aria-hidden="true" />
-        </button>
+        </a>
       </div>
 
       <footer className="corporate-sites-footer">
@@ -2460,11 +2499,21 @@ function UiUxDesignPanel({
             <p>{copy.ctaText}</p>
           </div>
           <div>
-            <button type="button">
+            <a
+              href={getWhatsAppHref(language, copy.primaryAction)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {copy.primaryAction}
               <span aria-hidden="true">&gt;</span>
-            </button>
-            <button type="button">{copy.secondaryAction}</button>
+            </a>
+            <a
+              href={getWhatsAppHref(language, copy.secondaryAction)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {copy.secondaryAction}
+            </a>
           </div>
         </section>
       </div>
