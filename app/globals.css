@@ -1073,80 +1073,23 @@ a {
 .system-nav-logo-mark {
   position: relative;
   display: grid;
-  width: 3.15rem;
+  width: 3.4rem;
   aspect-ratio: 1;
   place-items: center;
-  overflow: visible;
-  color: #a783ff;
+  overflow: hidden;
+  border-radius: 14px;
+  background: radial-gradient(
+    circle,
+    rgba(167, 131, 255, 0.14),
+    transparent 68%
+  );
   filter: drop-shadow(0 0 10px rgba(167, 131, 255, 0.82))
     drop-shadow(0 0 22px rgba(167, 131, 255, 0.42));
 }
 
 .system-nav-logo-mark::before,
 .system-nav-logo-mark::after {
-  content: "";
-  position: absolute;
-  inset: 0.36rem;
-  border: 2px solid currentColor;
-  border-radius: 4px;
-}
-
-.system-nav-logo-mark::before {
-  clip-path: polygon(
-    0 0,
-    32% 0,
-    32% 12%,
-    12% 12%,
-    12% 32%,
-    0 32%,
-    0 0,
-    100% 0,
-    100% 32%,
-    88% 32%,
-    88% 12%,
-    68% 12%,
-    68% 0,
-    100% 0,
-    100% 100%,
-    68% 100%,
-    68% 88%,
-    88% 88%,
-    88% 68%,
-    100% 68%,
-    100% 100%,
-    0 100%,
-    0 68%,
-    12% 68%,
-    12% 88%,
-    32% 88%,
-    32% 100%,
-    0 100%
-  );
-}
-
-.system-nav-logo-mark::after {
-  border: 0;
-  background: currentColor;
-  border-radius: 999px;
-  inset: 1.38rem;
-  box-shadow: 0 0 18px rgba(167, 131, 255, 0.9);
-}
-
-.system-nav-logo-mark i {
-  position: absolute;
-  inset: 0;
-  border-radius: 14px;
-  background: radial-gradient(
-    circle,
-    rgba(167, 131, 255, 0.16),
-    transparent 58%
-  );
-}
-
-.system-nav-logo-mark::before,
-.system-nav-logo-mark::after,
-.system-nav-logo-mark i {
-  display: block;
+  content: none;
 }
 
 .system-nav-logo-mark .system-nav-brand-logo {

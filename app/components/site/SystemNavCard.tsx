@@ -575,7 +575,15 @@ export function SystemNavCard({
 
       <div className="system-nav-brand">
         <span className="system-nav-logo-mark" aria-hidden="true">
-          <i />
+          <Image
+            className="system-nav-brand-logo"
+            src="/logo/code_art_logo_flow_transparent.gif"
+            alt=""
+            width={160}
+            height={160}
+            unoptimized
+            priority
+          />
         </span>
         <div className="system-nav-brand-copy">
           <p className="system-nav-brand-name">code-art</p>
