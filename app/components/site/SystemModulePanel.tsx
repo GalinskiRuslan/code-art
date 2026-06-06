@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState, type CSSProperties } from "react";
+import { type CSSProperties } from "react";
 
 import type { Language } from "../../lib/i18n";
 import { getWhatsAppHref } from "../../lib/whatsapp";
@@ -962,12 +962,9 @@ const performancePoints = [
   [646, 30],
 ] as const;
 
-const corporateAnimationFrames = Array.from(
-  { length: 56 },
-  (_, index) =>
-    `/corp/animation/ezgif-frame-${String(index + 1).padStart(3, "0")}.webp`
-);
-const corporateAnimationDuration = 5200;
+const corporateAnimationPoster = "/corp/animation/ezgif-frame-001.webp";
+const corporateAnimationWebm = "/corp/animation/corporate-loop.webm";
+const corporateAnimationMp4 = "/corp/animation/corporate-loop.mp4";
 
 const corporateIconSources = {
   includesTitle: "/corp/1/1-removebg-preview.png",
@@ -2915,50 +2912,21 @@ function UiUxIcon({ className, src }: { className: string; src: string }) {
 }
 
 function CorporateAnimationVisual() {
-  const [frameIndex, setFrameIndex] = useState(0);
-
-  useEffect(() => {
-    corporateAnimationFrames.forEach((frame) => {
-      const image = new window.Image();
-      image.src = frame;
-    });
-
-    const startTime = performance.now();
-    let animationFrameId = 0;
-
-    const tick = (time: number) => {
-      const progress = Math.min(
-        (time - startTime) / corporateAnimationDuration,
-        1
-      );
-      const nextFrame = Math.min(
-        Math.round(progress * (corporateAnimationFrames.length - 1)),
-        corporateAnimationFrames.length - 1
-      );
-
-      setFrameIndex(nextFrame);
-
-      if (progress < 1) {
-        animationFrameId = window.requestAnimationFrame(tick);
-      }
-    };
-
-    animationFrameId = window.requestAnimationFrame(tick);
-
-    return () => window.cancelAnimationFrame(animationFrameId);
-  }, []);
-
   return (
     <div className="corporate-sites-visual" aria-hidden="true">
       <div className="corporate-sites-animation-shell">
-        <Image
+        <video
           className="corporate-sites-animation-frame"
-          src={corporateAnimationFrames[frameIndex]}
-          alt=""
-          width={1280}
-          height={720}
-          unoptimized
-        />
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={corporateAnimationPoster}
+        >
+          <source src={corporateAnimationWebm} type="video/webm" />
+          <source src={corporateAnimationMp4} type="video/mp4" />
+        </video>
       </div>
       <span className="corporate-sites-animation-glow" />
     </div>

@@ -5157,6 +5157,7 @@ a {
 }
 
 .corporate-sites-animation-frame {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
