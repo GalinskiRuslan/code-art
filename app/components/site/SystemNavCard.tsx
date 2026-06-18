@@ -562,6 +562,10 @@ export function SystemNavCard({
 }) {
   const copy = studioNavCopy[language];
   const services = studioServiceItems[language];
+  const careerLabel =
+    language === "ru" ? "Карьера в Code Art" : "Career at Code Art";
+  const careerMeta =
+    language === "ru" ? "Страница сотрудничества и вакансий" : "Careers and collaboration page";
   const worldMapLabel = language === "ru" ? "Открыть AI Map" : "Open AI Map";
   const worldMapMeta =
     language === "ru" ? "Интерактивная карта компаний" : "Interactive company map";
@@ -702,6 +706,16 @@ export function SystemNavCard({
         <strong>{copy.cta}</strong>
         <i aria-hidden="true">&gt;</i>
       </a>
+
+      <Link
+        className="system-nav-subaction"
+        href="/career"
+        onClick={() => onNavItemSelect?.()}
+      >
+        <span>{careerLabel}</span>
+        <small>{careerMeta}</small>
+        <i aria-hidden="true">&gt;</i>
+      </Link>
 
       <Link
         className="system-nav-subaction"

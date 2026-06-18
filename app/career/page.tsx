@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import { getWhatsAppHref } from "../lib/whatsapp";
 import styles from "./career.module.css";
+import { careerVacancies } from "./vacancies";
+
+const siteUrl = "https://codeart.kz";
 
 const benefits = [
   {
@@ -25,39 +29,139 @@ const benefits = [
   },
 ] as const;
 
-const openings = [
-  {
-    title: "Разработчик-инженер высоконагруженных систем",
-    text:
-      "Проектирование backend-решений, работа с архитектурой, API, производительностью и масштабированием.",
-    tags: ["Backend", "Highload", "Architecture", "Remote"],
-    visual: "stack",
-    icon: "code",
-    topic: "Карьера: разработчик-инженер высоконагруженных систем",
-  },
-  {
-    title: "Мастер по продвижению digital-проектов",
-    text:
-      "Стратегия продвижения, реклама, SEO, аналитика и рост digital-проектов через эффективные каналы.",
-    tags: ["Marketing", "SEO", "Ads", "Analytics"],
-    visual: "chart",
-    icon: "megaphone",
-    topic: "Карьера: продвижение digital-проектов",
-  },
+const heroSignals = [
+  "Удалённая работа",
+  "IT-вакансии",
+  "Digital-вакансии",
+  "Казахстан и СНГ",
 ] as const;
 
 export const metadata: Metadata = {
   title: "Карьера в Code Art",
   description:
-    "Страница карьеры Code Art: сотрудничество со специалистами, открытые направления, форматы работы и точки входа в команду.",
+    "Карьера в Code Art: удалённая работа, IT-вакансии, digital-вакансии и сотрудничество со специалистами из Казахстана и СНГ.",
+  keywords: [
+    "карьера в Code Art",
+    "вакансии Code Art",
+    "удалённая работа Казахстан",
+    "IT-вакансии Казахстан",
+    "digital вакансии Казахстан",
+    "backend вакансии удалённо",
+    "marketing вакансии удалённо",
+    "работа в digital компании",
+  ],
+  category: "Careers",
   alternates: {
     canonical: "/career",
+  },
+  openGraph: {
+    type: "website",
+    url: `${siteUrl}/career`,
+    siteName: "Code Art",
+    title: "Карьера в Code Art",
+    description:
+      "Удалённая работа, IT-вакансии, digital-роли и сотрудничество над сильными проектами в Code Art.",
+    locale: "ru_KZ",
+    images: [
+      {
+        url: `${siteUrl}/career/career-hero.png`,
+        width: 1672,
+        height: 941,
+        alt: "Карьера в Code Art",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Карьера в Code Art",
+    description:
+      "Удалённая работа, IT-вакансии, digital-роли и сотрудничество над сильными проектами в Code Art.",
+    images: [`${siteUrl}/career/career-hero.png`],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
 export default function CareerPage() {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Главная",
+            item: siteUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Карьера в Code Art",
+            item: `${siteUrl}/career`,
+          },
+        ],
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": `${siteUrl}/career#webpage`,
+        url: `${siteUrl}/career`,
+        name: "Карьера в Code Art",
+        description:
+          "Страница карьеры Code Art с удалённой работой, IT-вакансиями, digital-вакансиями и форматами сотрудничества.",
+        isPartOf: {
+          "@id": `${siteUrl}/#website`,
+        },
+        about: {
+          "@type": "Organization",
+          name: "Code Art",
+          url: siteUrl,
+        },
+        inLanguage: "ru-KZ",
+        mainEntity: {
+          "@type": "ItemList",
+          name: "Открытые вакансии Code Art",
+          itemListElement: careerVacancies.map((item, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            item: {
+              "@type": "JobPosting",
+              title: item.title,
+              description: item.summary,
+              url: `${siteUrl}/career/${item.slug}`,
+              employmentType: item.format,
+              jobLocationType: "TELECOMMUTE",
+              hiringOrganization: {
+                "@type": "Organization",
+                name: "Code Art",
+                sameAs: siteUrl,
+              },
+            },
+          })),
+        },
+      },
+    ],
+  };
+
   return (
     <main className={styles.page}>
+      <Script
+        id="career-structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+        }}
+      />
       <div className={styles.backdrop} aria-hidden="true" />
 
       <div className={styles.shell}>
@@ -75,7 +179,7 @@ export default function CareerPage() {
             <div className={styles.heroCopy}>
               <span className={styles.heroPill}>
                 <UsersIcon />
-                <span>Карьера в Code-Art</span>
+                <span>Карьера и вакансии в Code-Art</span>
               </span>
 
               <h1 className={styles.heroTitle}>
@@ -86,10 +190,18 @@ export default function CareerPage() {
               </h1>
 
               <p className={styles.heroLead}>
-                Мы всегда открыты к сотрудничеству со специалистами, которые
-                хотят развиваться, обмениваться экспертизой и работать над
-                сильными digital-проектами.
+                Открыты к сотрудничеству со специалистами, которым важны удалённая работа,
+                сильные IT-вакансии, digital-задачи и реальные проекты: сайты, CRM,
+                AI-интеграции и growth-направления.
               </p>
+
+              <div className={styles.heroSignals}>
+                {heroSignals.map((item) => (
+                  <span key={item} className={styles.heroSignal}>
+                    {item}
+                  </span>
+                ))}
+              </div>
 
               <div className={styles.heroActions}>
                 <a
@@ -155,21 +267,16 @@ export default function CareerPage() {
                 Вакансии
               </p>
               <h2>Открытые направления</h2>
-            </div>
-
-            <div className={styles.controls} aria-hidden="true">
-              <button type="button" className={styles.controlButton} tabIndex={-1}>
-                <ArrowLeftIcon />
-              </button>
-              <button type="button" className={styles.controlButton} tabIndex={-1}>
-                <ArrowRightIcon />
-              </button>
+              <p className={styles.sectionIntro}>
+                Сейчас в работе две удалённые роли: backend-направление для сложных
+                систем и growth-маркетинг для digital-проектов.
+              </p>
             </div>
           </div>
 
           <div className={styles.openingsGrid}>
-            {openings.map((item) => (
-              <article key={item.title} className={styles.openingCard}>
+            {careerVacancies.map((item) => (
+              <article key={item.slug} className={styles.openingCard}>
                 <div className={styles.openingTop}>
                   <span className={styles.openingIcon}>
                     {item.icon === "code" ? <CodeIcon /> : <MegaphoneIcon />}
@@ -182,7 +289,13 @@ export default function CareerPage() {
                 <div className={styles.openingContent}>
                   <div className={styles.openingCopy}>
                     <h3>{item.title}</h3>
-                    <p>{item.text}</p>
+                    <p>{item.cardDescription}</p>
+
+                    <div className={styles.openingFacts}>
+                      <span className={styles.openingFact}>{item.location}</span>
+                      <span className={styles.openingFact}>{item.format}</span>
+                    </div>
+
                     <div className={styles.tags}>
                       {item.tags.map((tag) => (
                         <span key={tag} className={styles.tag}>
@@ -190,15 +303,11 @@ export default function CareerPage() {
                         </span>
                       ))}
                     </div>
-                    <a
-                      className={styles.openingLink}
-                      href={getWhatsAppHref("ru", item.topic)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+
+                    <Link className={styles.openingLink} href={`/career/${item.slug}`}>
                       <span>Подробнее</span>
                       <ArrowRightIcon />
-                    </a>
+                    </Link>
                   </div>
 
                   <div className={styles.openingVisual} aria-hidden="true">
@@ -216,10 +325,10 @@ export default function CareerPage() {
           </div>
 
           <div className={styles.bottomCopy}>
-            <h2>Не нашли подходящую роль?</h2>
+            <h2>Не нашли подходящую удалённую роль?</h2>
             <p>
-              Напишите нам — возможно, именно ваш опыт подойдёт для текущих или
-              будущих проектов.
+              Напишите нам. Возможно, именно ваш опыт подойдёт для текущих или будущих
+              IT- и digital-проектов Code Art.
             </p>
           </div>
 
@@ -311,15 +420,6 @@ function ArrowRightIcon() {
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M5 12h14" />
       <path d="m13 6 6 6-6 6" />
-    </svg>
-  );
-}
-
-function ArrowLeftIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M19 12H5" />
-      <path d="m11 6-6 6 6 6" />
     </svg>
   );
 }

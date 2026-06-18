@@ -220,6 +220,22 @@
   line-height: 1.74;
 }
 
+.heroSignals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.heroSignal {
+  border: 1px solid rgba(110, 130, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(10, 16, 33, 0.72);
+  padding: 0.5rem 0.8rem;
+  color: #a8b7ff;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
 .heroActions {
   display: flex;
   flex-wrap: wrap;
@@ -437,6 +453,14 @@
   letter-spacing: -0.05em;
 }
 
+.sectionIntro {
+  max-width: 42rem;
+  margin: 0;
+  color: rgba(223, 230, 248, 0.72);
+  font-size: 1.04rem;
+  line-height: 1.68;
+}
+
 .controls {
   display: inline-flex;
   gap: 0.8rem;
@@ -528,6 +552,22 @@
   display: grid;
   gap: 1rem;
   align-self: start;
+}
+
+.openingFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.openingFact {
+  border: 1px solid rgba(110, 130, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(11, 17, 34, 0.74);
+  padding: 0.48rem 0.8rem;
+  color: rgba(234, 239, 252, 0.76);
+  font-size: 0.84rem;
+  line-height: 1.2;
 }
 
 .openingCard h3 {
@@ -878,6 +918,11 @@
 
   .tag {
     font-size: 0.8rem;
+  }
+
+  .heroSignal,
+  .openingFact {
+    font-size: 0.78rem;
   }
 
   .primaryAction span,
