@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Language } from "../../lib/i18n";
 import { getWhatsAppHref } from "../../lib/whatsapp";
@@ -561,6 +562,9 @@ export function SystemNavCard({
 }) {
   const copy = studioNavCopy[language];
   const services = studioServiceItems[language];
+  const worldMapLabel = language === "ru" ? "Открыть AI Map" : "Open AI Map";
+  const worldMapMeta =
+    language === "ru" ? "Интерактивная карта компаний" : "Interactive company map";
   const selectNavItem = (item: NavItemId) => {
     onActiveItemChange(item);
     onNavItemSelect?.();
@@ -698,6 +702,16 @@ export function SystemNavCard({
         <strong>{copy.cta}</strong>
         <i aria-hidden="true">&gt;</i>
       </a>
+
+      <Link
+        className="system-nav-subaction"
+        href="/world"
+        onClick={() => onNavItemSelect?.()}
+      >
+        <span>{worldMapLabel}</span>
+        <small>{worldMapMeta}</small>
+        <i aria-hidden="true">&gt;</i>
+      </Link>
 
       <div className="system-nav-footer">
         <span>{copy.footer}</span>

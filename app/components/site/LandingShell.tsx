@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import {
@@ -152,6 +153,9 @@ export function LandingShell() {
       {/* <SiteHeader /> */}
       <div className="mobile-nav-bar">
         <span>code-art</span>
+        <Link className="mobile-nav-map-link" href="/world">
+          {language === "ru" ? "Карта" : "Map"}
+        </Link>
         <button
           className="mobile-nav-toggle"
           type="button"

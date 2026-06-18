@@ -54,6 +54,35 @@ a {
   display: none;
 }
 
+.mobile-nav-map-link {
+  display: inline-flex;
+  min-height: 2.22rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(188, 242, 255, 0.24);
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(76, 166, 255, 0.28), rgba(13, 35, 72, 0.3)),
+    rgba(10, 8, 24, 0.34);
+  color: rgba(236, 247, 255, 0.94);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  padding: 0 0.82rem;
+  box-shadow: 0 0 18px rgba(97, 209, 255, 0.18);
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.mobile-nav-map-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(188, 242, 255, 0.52);
+  box-shadow: 0 0 24px rgba(97, 209, 255, 0.24);
+}
+
 .mobile-nav-toggle {
   font: inherit;
 }
@@ -1613,6 +1642,58 @@ a {
   box-shadow: none;
   color: #f3deff;
   font-size: 1.45rem;
+  font-style: normal;
+}
+
+.system-nav-subaction {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.1rem 0.75rem;
+  align-items: center;
+  margin-top: 0.52rem;
+  border: 1px solid rgba(145, 220, 255, 0.22);
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 0% 50%, rgba(92, 192, 255, 0.12), transparent 40%),
+    rgba(18, 20, 37, 0.42);
+  padding: 0.72rem 0.84rem;
+  color: rgba(237, 246, 255, 0.92);
+  text-decoration: none;
+  transition:
+    transform 190ms ease,
+    border-color 190ms ease,
+    box-shadow 190ms ease;
+}
+
+.system-nav-subaction:hover {
+  transform: translateY(-2px);
+  border-color: rgba(145, 220, 255, 0.46);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 0 26px rgba(97, 209, 255, 0.14);
+}
+
+.system-nav-subaction span {
+  color: #eff7ff;
+  font-size: 0.6rem;
+  font-weight: 650;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.system-nav-subaction small {
+  grid-column: 1 / 2;
+  color: rgba(225, 234, 255, 0.6);
+  font-size: 0.48rem;
+  line-height: 1.4;
+}
+
+.system-nav-subaction i {
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+  align-self: center;
+  color: rgba(175, 233, 255, 0.94);
+  font-size: 1.15rem;
   font-style: normal;
 }
 
