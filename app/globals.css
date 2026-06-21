@@ -183,6 +183,14 @@ a {
   line-height: 1.58;
 }
 
+.seo-process a,
+.seo-faq a {
+  color: #d7c8ff;
+  text-decoration: underline;
+  text-decoration-color: rgba(215, 200, 255, 0.42);
+  text-underline-offset: 0.16em;
+}
+
 .seo-process {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.72fr);

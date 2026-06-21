@@ -562,6 +562,12 @@ export function SystemNavCard({
 }) {
   const copy = studioNavCopy[language];
   const services = studioServiceItems[language];
+  const servicesPageLabel =
+    language === "ru" ? "Услуги Code Art" : "Code Art services";
+  const servicesPageMeta =
+    language === "ru"
+      ? "Направления работы и форматы услуг"
+      : "Service directions and work formats";
   const careerLabel =
     language === "ru" ? "Карьера в Code Art" : "Career at Code Art";
   const careerMeta =
@@ -706,6 +712,16 @@ export function SystemNavCard({
         <strong>{copy.cta}</strong>
         <i aria-hidden="true">&gt;</i>
       </a>
+
+      <Link
+        className="system-nav-subaction"
+        href="/services"
+        onClick={() => onNavItemSelect?.()}
+      >
+        <span>{servicesPageLabel}</span>
+        <small>{servicesPageMeta}</small>
+        <i aria-hidden="true">&gt;</i>
+      </Link>
 
       <Link
         className="system-nav-subaction"

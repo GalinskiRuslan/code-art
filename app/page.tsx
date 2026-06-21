@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LandingShell } from "./components/site/LandingShell";
 
 const siteUrl = "https://codeart.kz";
@@ -5,7 +6,8 @@ const siteUrl = "https://codeart.kz";
 const services = [
   {
     title: "Корпоративные сайты",
-    text: "Имиджевые, презентационные и многостраничные сайты для бизнеса с адаптивной версткой, аналитикой и SEO-основой.",
+    text: "Имиджевые, презентационные и многостраничные сайты для бизнеса с адаптивной версткой, аналитикой и продуманной структурой.",
+    href: "/services/website-development",
   },
   {
     title: "Веб-приложения",
@@ -18,10 +20,12 @@ const services = [
   {
     title: "CRM / Автоматизация",
     text: "Внедрение CRM, автоматизация продаж, задач, коммуникаций, интеграций и отчетности.",
+    href: "/services/crm-automation",
   },
   {
     title: "AI-интеграции",
     text: "AI-ассистенты, подсказки менеджерам, суммаризация диалогов, прогнозы и автоматические действия.",
+    href: "/services/ai-integrations",
   },
   {
     title: "Поддержка и развитие",
@@ -106,10 +110,12 @@ const structuredData = {
         name: "Услуги Code Art",
         itemListElement: services.map((service) => ({
           "@type": "Offer",
+          ...(service.href ? { url: `${siteUrl}${service.href}` } : {}),
           itemOffered: {
             "@type": "Service",
             name: service.title,
             description: service.text,
+            ...(service.href ? { url: `${siteUrl}${service.href}` } : {}),
             provider: {
               "@id": `${siteUrl}/#organization`,
             },
@@ -164,7 +170,13 @@ function SeoContent() {
         <div className="seo-services" aria-label="Услуги Code Art">
           {services.map((service) => (
             <article key={service.title}>
-              <h2>{service.title}</h2>
+              <h2>
+                {service.href ? (
+                  <Link href={service.href}>{service.title}</Link>
+                ) : (
+                  service.title
+                )}
+              </h2>
               <p>{service.text}</p>
             </article>
           ))}
@@ -184,6 +196,64 @@ function SeoContent() {
             <li>UX/UI-дизайн и прототипирование</li>
             <li>Frontend-разработка и интеграции</li>
             <li>Тестирование, запуск и поддержка</li>
+          </ul>
+        </div>
+
+        <div className="seo-process">
+          <div>
+            <h2>Карьера и вакансии Code Art</h2>
+            <p>
+              Помимо услуг, мы публикуем отдельные страницы для удалённой работы,
+              IT-вакансий и digital-вакансий, чтобы кандидаты сразу попадали на
+              нужную роль, видели формат сотрудничества и могли быстро понять,
+              подходит ли им это направление.
+            </p>
+          </div>
+          <ul>
+            <li>
+              <Link href="/career">Карьера в Code Art</Link>
+            </li>
+            <li>
+              <Link href="/career/highload-systems-engineer">
+                Вакансия backend-инженера высоконагруженных систем
+              </Link>
+            </li>
+            <li>
+              <Link href="/career/digital-project-growth-marketer">
+                Вакансия по продвижению digital-проектов
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="seo-process">
+          <div>
+            <h2>Отдельные страницы услуг Code Art</h2>
+            <p>
+              Мы собрали ключевые направления на отдельных страницах, чтобы было
+              проще быстро перейти к нужной услуге, сравнить форматы и понять,
+              чем именно можем помочь бизнесу.
+            </p>
+          </div>
+          <ul>
+            <li>
+              <Link href="/services">Все услуги Code Art</Link>
+            </li>
+            <li>
+              <Link href="/services/website-development">
+                Разработка сайтов для бизнеса
+              </Link>
+            </li>
+            <li>
+              <Link href="/services/crm-automation">
+                CRM-автоматизация и внедрение процессов
+              </Link>
+            </li>
+            <li>
+              <Link href="/services/ai-integrations">
+                AI-интеграции для бизнеса
+              </Link>
+            </li>
           </ul>
         </div>
 

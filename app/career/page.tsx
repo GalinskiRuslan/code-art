@@ -4,7 +4,10 @@ import Link from "next/link";
 import Script from "next/script";
 import { getWhatsAppHref } from "../lib/whatsapp";
 import styles from "./career.module.css";
-import { careerVacancies } from "./vacancies";
+import {
+  careerVacancies,
+  getCareerVacancyStructuredDescription,
+} from "./vacancies";
 
 const siteUrl = "https://codeart.kz";
 
@@ -34,6 +37,42 @@ const heroSignals = [
   "IT-вакансии",
   "Digital-вакансии",
   "Казахстан и СНГ",
+] as const;
+
+const careerHighlights = [
+  {
+    title: "Удалённая работа с понятным форматом",
+    text:
+      "Мы ищем специалистов, которым важны результат, качество работы и нормальная коммуникация. Без лишней бюрократии и без искусственно раздутых процессов.",
+  },
+  {
+    title: "IT- и digital-вакансии под реальные проекты",
+    text:
+      "На странице собраны вакансии, связанные с реальными задачами бизнеса: backend, CRM, AI-интеграции, маркетинг, growth и digital-продвижение.",
+  },
+  {
+    title: "Отдельные страницы ролей с подробным описанием",
+    text:
+      "У каждой роли есть своя страница с обязанностями, требованиями, форматом работы и понятной точкой входа для отклика.",
+  },
+] as const;
+
+const careerFaq = [
+  {
+    question: "Можно ли откликнуться без готового резюме?",
+    answer:
+      "Да. Можно прислать краткое описание опыта, стек, ссылки на кейсы и проекты. Для первого контакта этого достаточно.",
+  },
+  {
+    question: "Вы рассматриваете специалистов только из Казахстана?",
+    answer:
+      "Основной фокус — Казахстан и СНГ. Для удалённой работы нам важнее совпадение по профилю, опыту и рабочему ритму.",
+  },
+  {
+    question: "Какие направления сейчас открыты?",
+    answer:
+      "Сейчас открыты backend-направление для высоконагруженных систем и роль по продвижению digital-проектов, но мы также открыты к сильным релевантным специалистам смежных направлений.",
+  },
 ] as const;
 
 export const metadata: Metadata = {
@@ -137,14 +176,26 @@ export default function CareerPage() {
             item: {
               "@type": "JobPosting",
               title: item.title,
-              description: item.summary,
+              description: getCareerVacancyStructuredDescription(item),
               url: `${siteUrl}/career/${item.slug}`,
-              employmentType: item.format,
+              datePosted: item.postedAt,
+              validThrough: item.validThrough,
+              employmentType: item.employmentTypes,
               jobLocationType: "TELECOMMUTE",
+              applicantLocationRequirements: {
+                "@type": "Country",
+                name: item.applicantCountry,
+              },
+              identifier: {
+                "@type": "PropertyValue",
+                name: "Code Art vacancy",
+                value: item.slug,
+              },
               hiringOrganization: {
                 "@type": "Organization",
                 name: "Code Art",
                 sameAs: siteUrl,
+                logo: `${siteUrl}/favicon.ico`,
               },
             },
           })),
@@ -316,6 +367,63 @@ export default function CareerPage() {
                 </div>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className={styles.insightsSection}>
+          <div className={styles.sectionHeading}>
+            <p className={styles.sectionEyebrow}>
+              <span className={styles.sectionDot} aria-hidden="true" />
+              О формате
+            </p>
+            <h2>Что важно на этой странице</h2>
+            <p className={styles.sectionIntro}>
+              Здесь собраны понятные описания ролей, формата сотрудничества и
+              открытых направлений, чтобы специалист мог быстро оценить, подходит
+              ли ему работа с Code Art.
+            </p>
+          </div>
+
+          <div className={styles.insightsGrid}>
+            {careerHighlights.map((item) => (
+              <article key={item.title} className={styles.insightCard}>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.faqSection}>
+          <div className={styles.sectionHeading}>
+            <p className={styles.sectionEyebrow}>
+              <span className={styles.sectionDot} aria-hidden="true" />
+              Частые вопросы
+            </p>
+            <h2>Ответы для кандидатов</h2>
+          </div>
+
+          <div className={styles.faqGrid}>
+            {careerFaq.map((item) => (
+              <article key={item.question} className={styles.faqCard}>
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </article>
+            ))}
+
+            <article className={styles.faqCard}>
+              <h3>Какие страницы вакансий уже опубликованы?</h3>
+              <p>
+                Сейчас доступны{" "}
+                <Link href="/career/highload-systems-engineer">
+                  отдельная страница вакансии backend-инженера
+                </Link>{" "}
+                и{" "}
+                <Link href="/career/digital-project-growth-marketer">
+                  отдельная страница вакансии digital-специалиста по росту
+                </Link>.
+              </p>
+            </article>
           </div>
         </section>
 

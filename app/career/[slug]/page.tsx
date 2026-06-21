@@ -4,7 +4,11 @@ import Script from "next/script";
 import { notFound } from "next/navigation";
 import { getWhatsAppHref } from "../../lib/whatsapp";
 import styles from "../vacancy.module.css";
-import { careerVacancies, getCareerVacancy } from "../vacancies";
+import {
+  careerVacancies,
+  getCareerVacancy,
+  getCareerVacancyStructuredDescription,
+} from "../vacancies";
 
 const siteUrl = "https://codeart.kz";
 
@@ -128,22 +132,31 @@ export default async function CareerVacancyPage({ params }: VacancyPageProps) {
       {
         "@type": "JobPosting",
         title: vacancy.title,
-        description: vacancy.summary,
-        employmentType: vacancy.format,
+        description: getCareerVacancyStructuredDescription(vacancy),
+        datePosted: vacancy.postedAt,
+        validThrough: vacancy.validThrough,
+        employmentType: vacancy.employmentTypes,
         industry: "Information Technology",
         occupationalCategory: vacancy.team,
+        experienceRequirements: vacancy.level,
         workHours: vacancy.schedule,
         url: `${siteUrl}/career/${vacancy.slug}`,
         jobLocationType: "TELECOMMUTE",
         applicantLocationRequirements: {
           "@type": "Country",
-          name: "Kazakhstan",
+          name: vacancy.applicantCountry,
+        },
+        identifier: {
+          "@type": "PropertyValue",
+          name: "Code Art vacancy",
+          value: vacancy.slug,
         },
         hiringOrganization: {
           "@type": "Organization",
           name: "Code Art",
           sameAs: siteUrl,
           url: siteUrl,
+          logo: `${siteUrl}/favicon.ico`,
         },
         mainEntityOfPage: `${siteUrl}/career/${vacancy.slug}`,
       },

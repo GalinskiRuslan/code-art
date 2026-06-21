@@ -12,6 +12,10 @@ export type CareerVacancy = {
   visual: "stack" | "chart";
   icon: "code" | "megaphone";
   topic: string;
+  postedAt: string;
+  validThrough: string;
+  applicantCountry: string;
+  employmentTypes: string[];
   tags: string[];
   seoKeywords: string[];
   responsibilities: string[];
@@ -39,6 +43,10 @@ export const careerVacancies: CareerVacancy[] = [
     visual: "stack",
     icon: "code",
     topic: "Отклик на вакансию: разработчик-инженер высоконагруженных систем",
+    postedAt: "2026-06-20",
+    validThrough: "2026-12-31T23:59",
+    applicantCountry: "Kazakhstan",
+    employmentTypes: ["FULL_TIME", "CONTRACTOR"],
     tags: [
       "Удалённая работа",
       "IT-вакансии",
@@ -103,6 +111,10 @@ export const careerVacancies: CareerVacancy[] = [
     visual: "chart",
     icon: "megaphone",
     topic: "Отклик на вакансию: мастер по продвижению digital-проектов",
+    postedAt: "2026-06-20",
+    validThrough: "2026-12-31T23:59",
+    applicantCountry: "Kazakhstan",
+    employmentTypes: ["PART_TIME", "CONTRACTOR"],
     tags: [
       "Удалённая работа",
       "Digital-вакансии",
@@ -154,4 +166,30 @@ export const careerVacancies: CareerVacancy[] = [
 
 export function getCareerVacancy(slug: string) {
   return careerVacancies.find((vacancy) => vacancy.slug === slug) ?? null;
+}
+
+export function getCareerVacancyStructuredDescription(vacancy: CareerVacancy) {
+  return [
+    `<p>${escapeHtml(vacancy.summary)}</p>`,
+    renderStructuredList("Чем заниматься", vacancy.responsibilities),
+    renderStructuredList("Что ожидаем", vacancy.requirements),
+    renderStructuredList("Будет плюсом", vacancy.plus),
+    renderStructuredList("Что даём со своей стороны", vacancy.offer),
+    renderStructuredList("Как проходит знакомство", vacancy.process),
+  ].join("");
+}
+
+function renderStructuredList(title: string, items: string[]) {
+  return `<h2>${escapeHtml(title)}</h2><ul>${items
+    .map((item) => `<li>${escapeHtml(item)}</li>`)
+    .join("")}</ul>`;
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }

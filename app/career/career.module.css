@@ -417,6 +417,13 @@
   padding-top: 1rem;
 }
 
+.insightsSection,
+.faqSection {
+  display: grid;
+  gap: 1.2rem;
+  padding-top: 1rem;
+}
+
 .sectionHeader {
   display: flex;
   align-items: end;
@@ -575,6 +582,57 @@
   line-height: 1.08;
   letter-spacing: -0.04em;
   text-wrap: balance;
+}
+
+.insightsGrid,
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.faqGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.insightCard,
+.faqCard {
+  display: grid;
+  gap: 0.8rem;
+  min-height: 100%;
+  padding: 1.25rem;
+  border: 1px solid rgba(141, 160, 255, 0.2);
+  border-radius: 1.2rem;
+  background:
+    linear-gradient(180deg, rgba(17, 26, 51, 0.84), rgba(8, 14, 28, 0.9)),
+    rgba(6, 11, 22, 0.88);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 22px 46px rgba(0, 0, 0, 0.16);
+}
+
+.insightCard h3,
+.faqCard h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.35rem;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+}
+
+.insightCard p,
+.faqCard p {
+  margin: 0;
+  color: rgba(221, 228, 247, 0.74);
+  font-size: 1rem;
+  line-height: 1.68;
+}
+
+.faqCard a {
+  color: #a9baff;
+  text-decoration: underline;
+  text-decoration-color: rgba(169, 186, 255, 0.42);
+  text-underline-offset: 0.15em;
 }
 
 .openingCard p {
@@ -794,6 +852,8 @@
 @media (max-width: 1180px) {
   .heroGrid,
   .openingsGrid,
+  .insightsGrid,
+  .faqGrid,
   .openingContent,
   .bottomCta {
     grid-template-columns: 1fr;
@@ -876,7 +936,9 @@
   }
 
   .benefitCard,
-  .openingCard {
+  .openingCard,
+  .insightCard,
+  .faqCard {
     min-height: auto;
   }
 
@@ -890,6 +952,8 @@
   }
 
   .openingCard h3,
+  .insightCard h3,
+  .faqCard h3,
   .benefitCard h2,
   .bottomCopy h2 {
     font-size: 1.8rem;
