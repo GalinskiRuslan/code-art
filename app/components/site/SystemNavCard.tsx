@@ -575,6 +575,9 @@ export function SystemNavCard({
   const worldMapLabel = language === "ru" ? "Открыть AI Map" : "Open AI Map";
   const worldMapMeta =
     language === "ru" ? "Интерактивная карта компаний" : "Interactive company map";
+  const gameLabel = language === "ru" ? "Наша игра" : "Our game";
+  const gameMeta =
+    language === "ru" ? "Открыть game.codeart.kz" : "Open game.codeart.kz";
   const selectNavItem = (item: NavItemId) => {
     onActiveItemChange(item);
     onNavItemSelect?.();
@@ -742,6 +745,18 @@ export function SystemNavCard({
         <small>{worldMapMeta}</small>
         <i aria-hidden="true">&gt;</i>
       </Link>
+
+      <a
+        className="system-nav-subaction"
+        href="https://game.codeart.kz/"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => onNavItemSelect?.()}
+      >
+        <span>{gameLabel}</span>
+        <small>{gameMeta}</small>
+        <i aria-hidden="true">&gt;</i>
+      </a>
 
       <div className="system-nav-footer">
         <span>{copy.footer}</span>

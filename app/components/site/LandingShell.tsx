@@ -153,9 +153,19 @@ export function LandingShell() {
       {/* <SiteHeader /> */}
       <div className="mobile-nav-bar">
         <span>code-art</span>
-        <Link className="mobile-nav-map-link" href="/world">
-          {language === "ru" ? "Карта" : "Map"}
-        </Link>
+        <div className="mobile-nav-shortcuts">
+          <Link className="mobile-nav-shortcut" href="/world">
+            {language === "ru" ? "Карта" : "Map"}
+          </Link>
+          <a
+            className="mobile-nav-shortcut"
+            href="https://game.codeart.kz/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {language === "ru" ? "Игра" : "Game"}
+          </a>
+        </div>
         <button
           className="mobile-nav-toggle"
           type="button"
