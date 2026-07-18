@@ -1134,7 +1134,6 @@ export function SystemModulePanel({
                 alt=""
                 width={120}
                 height={120}
-                unoptimized
               />
             </span>
             <div>
@@ -1338,7 +1337,6 @@ function AiIntegrationPanel({
               alt=""
               width={620}
               height={520}
-              unoptimized
             />
           </div>
 
@@ -1463,7 +1461,6 @@ function AiIcon({
         alt=""
         width={96}
         height={96}
-        unoptimized
       />
     </span>
   );
@@ -1881,7 +1878,6 @@ function SupportIcon({
         alt=""
         width={96}
         height={96}
-        unoptimized
       />
     </span>
   );
@@ -1928,7 +1924,6 @@ function CorporateSitesPanel({
               alt=""
               width={76}
               height={76}
-              unoptimized
             />
           </span>
           <div>
@@ -1949,7 +1944,6 @@ function CorporateSitesPanel({
                 alt=""
                 width={112}
                 height={112}
-                unoptimized
               />
             </span>
             <div>
@@ -1996,7 +1990,6 @@ function CorporateSitesPanel({
                   alt=""
                   width={96}
                   height={96}
-                  unoptimized
                 />
               </span>
               <span>{stage}</span>
@@ -2019,7 +2012,6 @@ function CorporateSitesPanel({
                 alt=""
                 width={72}
                 height={72}
-                unoptimized
               />
             </span>
             <span>{metric.label}</span>
@@ -2042,7 +2034,6 @@ function CorporateSitesPanel({
               alt=""
               width={84}
               height={84}
-              unoptimized
             />
           </span>
           <strong>{copy.primaryAction}</strong>
@@ -2108,7 +2099,6 @@ function WebApplicationsPanel({
               alt=""
               width={76}
               height={76}
-              unoptimized
             />
           </span>
           <div>
@@ -2172,7 +2162,6 @@ function WebApplicationsPanel({
                   alt=""
                   width={96}
                   height={96}
-                  unoptimized
                 />
               </span>
               <span>{stage}</span>
@@ -2195,7 +2184,6 @@ function WebApplicationsPanel({
                 alt=""
                 width={72}
                 height={72}
-                unoptimized
               />
             </span>
             <span>{metric.label}</span>
@@ -2218,7 +2206,6 @@ function WebApplicationsPanel({
               alt=""
               width={84}
               height={84}
-              unoptimized
             />
           </span>
           <strong>{copy.primaryAction}</strong>
@@ -2954,7 +2941,6 @@ function CorporateListCard({
             alt=""
             width={64}
             height={64}
-            unoptimized
           />
         </span>
         {title}
@@ -2969,7 +2955,6 @@ function CorporateListCard({
                 alt=""
                 width={48}
                 height={48}
-                unoptimized
               />
             </span>
             <span>{item}</span>

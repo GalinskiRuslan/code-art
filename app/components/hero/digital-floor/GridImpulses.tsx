@@ -282,11 +282,7 @@ const samplePath2 = (path: ImpulsePath, progress: number): PathSample => {
   };
 };
 
-const makeTrailPositions = (
-  path: ImpulsePath,
-  progress: number,
-  lift: number
-) => {
+const makeTrailSamples = (path: ImpulsePath, progress: number): Point2[] => {
   const startProgress = Math.max(0, progress - trailLengthRatio);
   const startSample = samplePath2(path, startProgress);
   const endSample = samplePath2(path, progress);
@@ -329,8 +325,11 @@ const makeTrailPositions = (
 
   return positions
     .sort((left, right) => left.progress - right.progress)
-    .map(({ point: [x, z] }) => [x, floorHeight(x, z) + lift, z] as Point3);
+    .map(({ point }) => point);
 };
+
+const applyLift = (points: Point2[], lift: number): Point3[] =>
+  points.map(([x, z]) => [x, floorHeight(x, z) + lift, z] as Point3);
 
 const updateLine = (
   line: DynamicLine | null,
@@ -387,21 +386,10 @@ function GridImpulseRunner({
     }
 
     const visibleTrail = progress > trailLengthRatio * 0.18;
-    updateLine(
-      haloLineRef.current,
-      makeTrailPositions(activePath, progress, 0.12),
-      visibleTrail
-    );
-    updateLine(
-      glowLineRef.current,
-      makeTrailPositions(activePath, progress, 0.135),
-      visibleTrail
-    );
-    updateLine(
-      coreLineRef.current,
-      makeTrailPositions(activePath, progress, 0.15),
-      visibleTrail
-    );
+    const trailSamples = makeTrailSamples(activePath, progress);
+    updateLine(haloLineRef.current, applyLift(trailSamples, 0.12), visibleTrail);
+    updateLine(glowLineRef.current, applyLift(trailSamples, 0.135), visibleTrail);
+    updateLine(coreLineRef.current, applyLift(trailSamples, 0.15), visibleTrail);
 
     sparkRefs.current.forEach((spark, sparkIndex) => {
       if (!spark) return;

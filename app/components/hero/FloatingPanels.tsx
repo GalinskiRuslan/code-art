@@ -289,7 +289,6 @@ export function FloatingPanels({
                       alt=""
                       width={92}
                       height={92}
-                      unoptimized
                     />
                   </span>
                   <div>
@@ -369,7 +368,6 @@ export function FloatingPanels({
                       alt=""
                       width={120}
                       height={120}
-                      unoptimized
                     />
                   </span>
                   <div>

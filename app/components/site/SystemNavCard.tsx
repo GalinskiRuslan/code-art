@@ -680,7 +680,6 @@ export function SystemNavCard({
                 width={72}
                 height={72}
                 sizes="72px"
-                unoptimized
                 aria-hidden="true"
               />
               <span>{benefit.title}</span>
