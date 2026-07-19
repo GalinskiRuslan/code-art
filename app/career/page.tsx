@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import { getWhatsAppHref } from "../lib/whatsapp";
+import { TrackedAnchor, TrackedLink } from "../components/TrackedLink";
 import styles from "./career.module.css";
 import {
   careerVacancies,
@@ -42,18 +43,15 @@ const heroSignals = [
 const careerHighlights = [
   {
     title: "Удалённая работа с понятным форматом",
-    text:
-      "Мы ищем специалистов, которым важны результат, качество работы и нормальная коммуникация. Без лишней бюрократии и без искусственно раздутых процессов.",
+    text: "Мы ищем специалистов, которым важны результат, качество работы и нормальная коммуникация. Без лишней бюрократии и без искусственно раздутых процессов.",
   },
   {
     title: "IT- и digital-вакансии под реальные проекты",
-    text:
-      "На странице собраны вакансии, связанные с реальными задачами бизнеса: backend, CRM, AI-интеграции, маркетинг, growth и digital-продвижение.",
+    text: "На странице собраны вакансии, связанные с реальными задачами бизнеса: backend, CRM, AI-интеграции, маркетинг, growth и digital-продвижение.",
   },
   {
     title: "Отдельные страницы ролей с подробным описанием",
-    text:
-      "У каждой роли есть своя страница с обязанностями, требованиями, форматом работы и понятной точкой входа для отклика.",
+    text: "У каждой роли есть своя страница с обязанностями, требованиями, форматом работы и понятной точкой входа для отклика.",
   },
 ] as const;
 
@@ -76,7 +74,7 @@ const careerFaq = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "Карьера в Code Art",
+  title: { absolute: "Карьера в Code Art" },
   description:
     "Карьера в Code Art: удалённая работа, IT-вакансии, digital-вакансии и сотрудничество со специалистами из Казахстана и СНГ.",
   keywords: [
@@ -237,13 +235,15 @@ export default function CareerPage() {
                 <span className={styles.heroTitleLine}>Сотрудничаем с</span>
                 <span className={styles.heroTitleLine}>профессионалами.</span>
                 <span className={styles.heroTitleLine}>Делимся опытом.</span>
-                <span className={styles.heroTitleLine}>Создаём сильные проекты.</span>
+                <span className={styles.heroTitleLine}>
+                  Создаём сильные проекты.
+                </span>
               </h1>
 
               <p className={styles.heroLead}>
-                Открыты к сотрудничеству со специалистами, которым важны удалённая работа,
-                сильные IT-вакансии, digital-задачи и реальные проекты: сайты, CRM,
-                AI-интеграции и growth-направления.
+                Открыты к сотрудничеству со специалистами, которым важны
+                удалённая работа, сильные IT-вакансии, digital-задачи и реальные
+                проекты: сайты, CRM, AI-интеграции и growth-направления.
               </p>
 
               <div className={styles.heroSignals}>
@@ -255,24 +255,31 @@ export default function CareerPage() {
               </div>
 
               <div className={styles.heroActions}>
-                <a
+                <TrackedAnchor
                   className={styles.primaryAction}
                   href={getWhatsAppHref("ru", "Отклик в Code Art")}
                   target="_blank"
                   rel="noopener noreferrer"
+                  eventName="whatsapp_click"
+                  eventPayload={{ location: "career_hero_apply" }}
                 >
                   <span>Откликнуться</span>
                   <ArrowUpRightIcon />
-                </a>
-                <a
+                </TrackedAnchor>
+                <TrackedAnchor
                   className={styles.secondaryAction}
-                  href={getWhatsAppHref("ru", "Предложить сотрудничество Code Art")}
+                  href={getWhatsAppHref(
+                    "ru",
+                    "Предложить сотрудничество Code Art",
+                  )}
                   target="_blank"
                   rel="noopener noreferrer"
+                  eventName="whatsapp_click"
+                  eventPayload={{ location: "career_hero_cooperate" }}
                 >
                   <span>Предложить сотрудничество</span>
                   <ArrowUpRightIcon />
-                </a>
+                </TrackedAnchor>
               </div>
             </div>
 
@@ -319,8 +326,8 @@ export default function CareerPage() {
               </p>
               <h2>Открытые направления</h2>
               <p className={styles.sectionIntro}>
-                Сейчас в работе две удалённые роли: backend-направление для сложных
-                систем и growth-маркетинг для digital-проектов.
+                Сейчас в работе две удалённые роли: backend-направление для
+                сложных систем и growth-маркетинг для digital-проектов.
               </p>
             </div>
           </div>
@@ -343,7 +350,9 @@ export default function CareerPage() {
                     <p>{item.cardDescription}</p>
 
                     <div className={styles.openingFacts}>
-                      <span className={styles.openingFact}>{item.location}</span>
+                      <span className={styles.openingFact}>
+                        {item.location}
+                      </span>
                       <span className={styles.openingFact}>{item.format}</span>
                     </div>
 
@@ -355,14 +364,23 @@ export default function CareerPage() {
                       ))}
                     </div>
 
-                    <Link className={styles.openingLink} href={`/career/${item.slug}`}>
+                    <TrackedLink
+                      className={styles.openingLink}
+                      href={`/career/${item.slug}`}
+                      eventName="vacancy_card_click"
+                      eventPayload={{ slug: item.slug }}
+                    >
                       <span>Подробнее</span>
                       <ArrowRightIcon />
-                    </Link>
+                    </TrackedLink>
                   </div>
 
                   <div className={styles.openingVisual} aria-hidden="true">
-                    {item.visual === "stack" ? <StackVisual /> : <ChartVisual />}
+                    {item.visual === "stack" ? (
+                      <StackVisual />
+                    ) : (
+                      <ChartVisual />
+                    )}
                   </div>
                 </div>
               </article>
@@ -373,14 +391,13 @@ export default function CareerPage() {
         <section className={styles.insightsSection}>
           <div className={styles.sectionHeading}>
             <p className={styles.sectionEyebrow}>
-              <span className={styles.sectionDot} aria-hidden="true" />
-              О формате
+              <span className={styles.sectionDot} aria-hidden="true" />О формате
             </p>
             <h2>Что важно на этой странице</h2>
             <p className={styles.sectionIntro}>
               Здесь собраны понятные описания ролей, формата сотрудничества и
-              открытых направлений, чтобы специалист мог быстро оценить, подходит
-              ли ему работа с Code Art.
+              открытых направлений, чтобы специалист мог быстро оценить,
+              подходит ли ему работа с Code Art.
             </p>
           </div>
 
@@ -421,7 +438,8 @@ export default function CareerPage() {
                 и{" "}
                 <Link href="/career/digital-project-growth-marketer">
                   отдельная страница вакансии digital-специалиста по росту
-                </Link>.
+                </Link>
+                .
               </p>
             </article>
           </div>
@@ -435,20 +453,22 @@ export default function CareerPage() {
           <div className={styles.bottomCopy}>
             <h2>Не нашли подходящую удалённую роль?</h2>
             <p>
-              Напишите нам. Возможно, именно ваш опыт подойдёт для текущих или будущих
-              IT- и digital-проектов Code Art.
+              Напишите нам. Возможно, именно ваш опыт подойдёт для текущих или
+              будущих IT- и digital-проектов Code Art.
             </p>
           </div>
 
-          <a
+          <TrackedAnchor
             className={styles.bottomAction}
             href={getWhatsAppHref("ru", "Не нашёл подходящую роль")}
             target="_blank"
             rel="noopener noreferrer"
+            eventName="whatsapp_click"
+            eventPayload={{ location: "career_bottom_cta" }}
           >
             <span>Связаться с нами</span>
             <ArrowUpRightIcon />
-          </a>
+          </TrackedAnchor>
         </section>
       </div>
     </main>
@@ -568,7 +588,11 @@ function ChartVisual() {
       <span className={styles.chartBarTwo} />
       <span className={styles.chartBarThree} />
       <span className={styles.chartBarFour} />
-      <svg viewBox="0 0 200 120" className={styles.chartLine} aria-hidden="true">
+      <svg
+        viewBox="0 0 200 120"
+        className={styles.chartLine}
+        aria-hidden="true"
+      >
         <path d="M20 90 68 70 104 80 142 40 178 24" />
         <circle cx="20" cy="90" r="4" />
         <circle cx="68" cy="70" r="4" />
@@ -576,6 +600,9 @@ function ChartVisual() {
         <circle cx="142" cy="40" r="4" />
         <circle cx="178" cy="24" r="4" />
       </svg>
+      <button id="ga4-test-button" type="button">
+        Отправить тестовое событие
+      </button>
     </div>
   );
 }

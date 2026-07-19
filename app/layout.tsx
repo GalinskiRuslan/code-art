@@ -43,6 +43,11 @@ export const metadata: Metadata = {
   category: "Web development",
   alternates: {
     canonical: "/",
+    languages: {
+      "ru-KZ": "/",
+      en: "/en",
+      "x-default": "/",
+    },
   },
   openGraph: {
     type: "website",

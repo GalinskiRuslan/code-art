@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { getWhatsAppHref } from "../lib/whatsapp";
+import { TrackedAnchor, TrackedLink } from "../components/TrackedLink";
 import styles from "./services.module.css";
 import { servicePages } from "./service-pages";
 
@@ -22,7 +23,7 @@ const processSteps = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "Услуги Code Art",
+  title: { absolute: "Услуги Code Art" },
   description:
     "Услуги Code Art для бизнеса: разработка сайтов, CRM-автоматизация и AI-интеграции для компаний в Казахстане и СНГ.",
   keywords: [
@@ -154,15 +155,17 @@ export default function ServicesPage() {
             </div>
 
             <div className={styles.actionRow}>
-              <a
+              <TrackedAnchor
                 className={styles.primaryAction}
                 href={getWhatsAppHref("ru", "Запрос по услугам Code Art")}
                 target="_blank"
                 rel="noopener noreferrer"
+                eventName="whatsapp_click"
+                eventPayload={{ location: "services_hero" }}
               >
                 <span>Обсудить задачу</span>
                 <ArrowUpRightIcon />
-              </a>
+              </TrackedAnchor>
 
               <Link href="/" className={styles.secondaryAction}>
                 <span>На главную</span>
@@ -203,10 +206,15 @@ export default function ServicesPage() {
               </div>
 
               <div className={styles.serviceLinks}>
-                <Link href={`/services/${service.slug}`} className={styles.serviceLink}>
+                <TrackedLink
+                  href={`/services/${service.slug}`}
+                  className={styles.serviceLink}
+                  eventName="service_card_click"
+                  eventPayload={{ slug: service.slug }}
+                >
                   <span>Открыть страницу</span>
                   <ArrowRightIcon />
-                </Link>
+                </TrackedLink>
               </div>
             </article>
           ))}
@@ -241,15 +249,17 @@ export default function ServicesPage() {
             </p>
           </div>
 
-          <a
+          <TrackedAnchor
             className={styles.primaryAction}
             href={getWhatsAppHref("ru", "Запрос по коммерческой странице услуги")}
             target="_blank"
             rel="noopener noreferrer"
+            eventName="whatsapp_click"
+            eventPayload={{ location: "services_bottom_cta" }}
           >
             <span>Связаться с нами</span>
             <ArrowUpRightIcon />
-          </a>
+          </TrackedAnchor>
         </section>
       </div>
     </main>

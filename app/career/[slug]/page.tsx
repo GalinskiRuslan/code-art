@@ -3,6 +3,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { notFound } from "next/navigation";
 import { getWhatsAppHref } from "../../lib/whatsapp";
+import { TrackedAnchor, TrackedLink } from "../../components/TrackedLink";
 import styles from "../vacancy.module.css";
 import {
   careerVacancies,
@@ -41,7 +42,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${vacancy.title} — вакансия в Code Art`,
+    title: { absolute: `${vacancy.title} — вакансия в Code Art` },
     description: vacancy.metaDescription,
     keywords: [
       vacancy.title,
@@ -215,15 +216,17 @@ export default async function CareerVacancyPage({ params }: VacancyPageProps) {
             </div>
 
             <div className={styles.actions}>
-              <a
+              <TrackedAnchor
                 className={styles.primaryAction}
                 href={getWhatsAppHref("ru", vacancy.topic)}
                 target="_blank"
                 rel="noopener noreferrer"
+                eventName="whatsapp_click"
+                eventPayload={{ location: "vacancy_detail_hero", slug: vacancy.slug }}
               >
                 <span>Откликнуться</span>
                 <ArrowUpRightIcon />
-              </a>
+              </TrackedAnchor>
               <Link className={styles.secondaryAction} href="/career">
                 <span>Все вакансии</span>
                 <ArrowRightIcon />
@@ -313,10 +316,15 @@ export default async function CareerVacancyPage({ params }: VacancyPageProps) {
             </div>
 
             <div className={styles.relatedActions}>
-              <Link className={styles.relatedLink} href={`/career/${relatedVacancy.slug}`}>
+              <TrackedLink
+                className={styles.relatedLink}
+                href={`/career/${relatedVacancy.slug}`}
+                eventName="vacancy_card_click"
+                eventPayload={{ slug: relatedVacancy.slug, location: "related" }}
+              >
                 <span>Открыть вакансию</span>
                 <ArrowRightIcon />
-              </Link>
+              </TrackedLink>
             </div>
           </section>
         ) : null}
@@ -330,15 +338,17 @@ export default async function CareerVacancyPage({ params }: VacancyPageProps) {
             </p>
           </div>
 
-          <a
+          <TrackedAnchor
             className={styles.primaryAction}
             href={getWhatsAppHref("ru", `Обсудить вакансию: ${vacancy.title}`)}
             target="_blank"
             rel="noopener noreferrer"
+            eventName="whatsapp_click"
+            eventPayload={{ location: "vacancy_detail_bottom", slug: vacancy.slug }}
           >
             <span>Написать в WhatsApp</span>
             <ArrowUpRightIcon />
-          </a>
+          </TrackedAnchor>
         </section>
       </div>
     </main>

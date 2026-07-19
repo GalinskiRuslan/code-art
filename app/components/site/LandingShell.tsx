@@ -2,13 +2,9 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import {
-  defaultLanguage,
-  isLanguage,
-  type Language,
-} from "../../lib/i18n";
+import { uiCopy, type Language } from "../../lib/i18n";
 import { SystemNavCard, type NavItemId } from "./SystemNavCard";
 
 const SceneCanvas = dynamic(
@@ -30,26 +26,23 @@ const SystemModulePanel = dynamic(
 
 const sceneShiftStep = 0.85;
 const maxSceneOffset = 2.55;
-const languageStorageKey = "code-art-language";
 const mobileMediaQuery = "(max-width: 900px)";
 
-const getInitialLanguage = (): Language => {
-  if (typeof window === "undefined") return defaultLanguage;
-
-  const savedLanguage = window.localStorage.getItem(languageStorageKey);
-
-  if (isLanguage(savedLanguage)) return savedLanguage;
-
-  return window.navigator.language.toLowerCase().startsWith("ru") ? "ru" : "en";
-};
-
-export function LandingShell() {
+export function LandingShell({
+  language,
+}: {
+  // The route decides the language now (`/` = ru, `/en` = en) so every
+  // language has its own crawlable, indexable URL. See app/en/page.tsx.
+  language: Language;
+}) {
   const [sceneOffsetX, setSceneOffsetX] = useState(0);
-  const [language, setLanguage] = useState<Language>(getInitialLanguage);
   const [activeNavItem, setActiveNavItem] = useState<NavItemId | null>(null);
   const [isMobileScene, setIsMobileScene] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [shouldLoadScene, setShouldLoadScene] = useState(false);
+  const modulePanelWrapperRef = useRef<HTMLDivElement | null>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const wasModuleOpenRef = useRef(false);
 
   const shiftScene = useCallback((direction: -1 | 1) => {
     setSceneOffsetX((currentOffset) => {
@@ -57,11 +50,6 @@ export function LandingShell() {
 
       return Math.max(-maxSceneOffset, Math.min(maxSceneOffset, nextOffset));
     });
-  }, []);
-
-  const changeLanguage = useCallback((nextLanguage: Language) => {
-    setLanguage(nextLanguage);
-    window.localStorage.setItem(languageStorageKey, nextLanguage);
   }, []);
 
   const changeActiveNavItem = useCallback((item: NavItemId | null) => {
@@ -148,8 +136,56 @@ export function LandingShell() {
     document.documentElement.lang = language;
   }, [language]);
 
+  // Module panel accessibility: Escape closes it, and focus moves into the
+  // panel on open and returns to whatever triggered it on close, instead of
+  // leaving keyboard/screen-reader users stranded when it appears/disappears.
+  useEffect(() => {
+    if (!activeNavItem) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        changeActiveNavItem(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeNavItem, changeActiveNavItem]);
+
+  useEffect(() => {
+    if (activeNavItem) {
+      if (!wasModuleOpenRef.current) {
+        previousFocusRef.current =
+          document.activeElement instanceof HTMLElement
+            ? document.activeElement
+            : null;
+        wasModuleOpenRef.current = true;
+      }
+
+      const frame = window.requestAnimationFrame(() => {
+        modulePanelWrapperRef.current
+          ?.querySelector<HTMLElement>(".system-module-close")
+          ?.focus();
+      });
+
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    if (wasModuleOpenRef.current) {
+      wasModuleOpenRef.current = false;
+      previousFocusRef.current?.focus();
+      previousFocusRef.current = null;
+    }
+  }, [activeNavItem]);
+
   return (
     <main className={shellClassName}>
+      <h1 className="sr-only">
+        {language === "ru"
+          ? "Code Art — разработка сайтов, веб-приложений, CRM и AI-интеграций"
+          : "Code Art — website, web app, CRM and AI integration development"}
+      </h1>
       {/* <SiteHeader /> */}
       <div className="mobile-nav-bar">
         <span>code-art</span>
@@ -190,32 +226,38 @@ export function LandingShell() {
           isMobileScene={isMobileScene}
         />
       ) : (
-        <SceneCanvasFallback />
+        <SceneCanvasFallback language={language} />
       )}
       <SystemNavCard
         language={language}
-        onLanguageChange={changeLanguage}
         activeItem={activeNavItem}
         onActiveItemChange={changeActiveNavItem}
         onNavItemSelect={closeMobileNavigation}
       />
       {activeNavItem ? (
-        <SystemModulePanel
-          language={language}
-          activeItem={activeNavItem}
-          onClose={() => changeActiveNavItem(null)}
-        />
+        <div ref={modulePanelWrapperRef}>
+          <SystemModulePanel
+            language={language}
+            activeItem={activeNavItem}
+            onClose={() => changeActiveNavItem(null)}
+          />
+        </div>
       ) : null}
     </main>
   );
 }
 
-function SceneCanvasFallback() {
+function SceneCanvasFallback({ language }: { language?: Language }) {
   return (
     <div className="scene-canvas scene-canvas-fallback" aria-hidden="true">
       <div className="scene-canvas-fallback-core">
         <span>code-art</span>
-        <i />
+        <i className="scene-canvas-fallback-bar" />
+        {language ? (
+          <p className="scene-canvas-fallback-status">
+            {uiCopy[language].loadingScene}
+          </p>
+        ) : null}
       </div>
     </div>
   );

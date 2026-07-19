@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Language } from "../../lib/i18n";
 import { getWhatsAppHref } from "../../lib/whatsapp";
+import { trackEvent } from "../../lib/analytics";
 
 export const navItems = [
   { id: "overview", code: "01", icon: "target" },
@@ -549,19 +550,23 @@ const studioServiceItems: Record<
 
 export function SystemNavCard({
   language,
-  onLanguageChange,
   activeItem,
   onActiveItemChange,
   onNavItemSelect,
 }: {
   language: Language;
-  onLanguageChange: (language: Language) => void;
   activeItem: NavItemId | null;
   onActiveItemChange: (item: NavItemId | null) => void;
   onNavItemSelect?: () => void;
 }) {
   const copy = studioNavCopy[language];
   const services = studioServiceItems[language];
+  const calculatorLabel =
+    language === "ru" ? "Рассчитать стоимость проекта" : "Calculate project cost";
+  const calculatorMeta =
+    language === "ru"
+      ? "Интерактивный калькулятор стоимости"
+      : "Interactive project cost calculator";
   const servicesPageLabel =
     language === "ru" ? "Услуги Code Art" : "Code Art services";
   const servicesPageMeta =
@@ -581,6 +586,7 @@ export function SystemNavCard({
   const selectNavItem = (item: NavItemId) => {
     onActiveItemChange(item);
     onNavItemSelect?.();
+    trackEvent("module_opened", { module: item, language });
   };
 
   return (
@@ -611,19 +617,22 @@ export function SystemNavCard({
           aria-label={copy.languageSwitchLabel}
         >
           {(["ru", "en"] as const).map((item) => (
-            <button
+            <Link
               key={item}
+              href={item === "ru" ? "/" : "/en"}
               className={
                 language === item
                   ? "system-nav-language-button is-active"
                   : "system-nav-language-button"
               }
-              type="button"
-              aria-pressed={language === item}
-              onClick={() => onLanguageChange(item)}
+              aria-current={language === item ? "page" : undefined}
+              hrefLang={item}
+              onClick={() =>
+                trackEvent("language_switch", { from: language, to: item })
+              }
             >
               {item.toUpperCase()}
-            </button>
+            </Link>
           ))}
         </div>
       </div>
@@ -709,6 +718,9 @@ export function SystemNavCard({
         href={getWhatsAppHref(language, copy.cta)}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() =>
+          trackEvent("whatsapp_click", { location: "nav_main_cta", language })
+        }
       >
         <span className="system-nav-action-mark" aria-hidden="true" />
         <strong>{copy.cta}</strong>
@@ -716,9 +728,25 @@ export function SystemNavCard({
       </a>
 
       <Link
+        className="system-nav-subaction system-nav-subaction-highlight"
+        href="/calculator"
+        onClick={() => {
+          onNavItemSelect?.();
+          trackEvent("nav_link_click", { target: "calculator", language });
+        }}
+      >
+        <span>{calculatorLabel}</span>
+        <small>{calculatorMeta}</small>
+        <i aria-hidden="true">&gt;</i>
+      </Link>
+
+      <Link
         className="system-nav-subaction"
         href="/services"
-        onClick={() => onNavItemSelect?.()}
+        onClick={() => {
+          onNavItemSelect?.();
+          trackEvent("nav_link_click", { target: "services", language });
+        }}
       >
         <span>{servicesPageLabel}</span>
         <small>{servicesPageMeta}</small>
@@ -728,7 +756,10 @@ export function SystemNavCard({
       <Link
         className="system-nav-subaction"
         href="/career"
-        onClick={() => onNavItemSelect?.()}
+        onClick={() => {
+          onNavItemSelect?.();
+          trackEvent("nav_link_click", { target: "career", language });
+        }}
       >
         <span>{careerLabel}</span>
         <small>{careerMeta}</small>
@@ -738,7 +769,10 @@ export function SystemNavCard({
       <Link
         className="system-nav-subaction"
         href="/world"
-        onClick={() => onNavItemSelect?.()}
+        onClick={() => {
+          onNavItemSelect?.();
+          trackEvent("nav_link_click", { target: "world", language });
+        }}
       >
         <span>{worldMapLabel}</span>
         <small>{worldMapMeta}</small>
@@ -750,7 +784,10 @@ export function SystemNavCard({
         href="https://game.codeart.kz/"
         target="_blank"
         rel="noopener noreferrer"
-        onClick={() => onNavItemSelect?.()}
+        onClick={() => {
+          onNavItemSelect?.();
+          trackEvent("nav_link_click", { target: "game", language });
+        }}
       >
         <span>{gameLabel}</span>
         <small>{gameMeta}</small>

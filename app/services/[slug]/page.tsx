@@ -3,6 +3,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { notFound } from "next/navigation";
 import { getWhatsAppHref } from "../../lib/whatsapp";
+import { TrackedAnchor, TrackedLink } from "../../components/TrackedLink";
 import styles from "../services.module.css";
 import { getServicePage, servicePages } from "../service-pages";
 
@@ -37,7 +38,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${service.title} — Code Art`,
+    title: { absolute: `${service.title} — Code Art` },
     description: service.metaDescription,
     keywords: [
       service.title,
@@ -198,15 +199,17 @@ export default async function ServiceDetailPage({
             </div>
 
             <div className={styles.actionRow}>
-              <a
+              <TrackedAnchor
                 className={styles.primaryAction}
                 href={getWhatsAppHref("ru", service.ctaTopic)}
                 target="_blank"
                 rel="noopener noreferrer"
+                eventName="whatsapp_click"
+                eventPayload={{ location: "service_detail_hero", slug: service.slug }}
               >
                 <span>Обсудить услугу</span>
                 <ArrowUpRightIcon />
-              </a>
+              </TrackedAnchor>
 
               <Link href="/services" className={styles.secondaryAction}>
                 <span>Назад к услугам</span>
@@ -285,10 +288,15 @@ export default async function ServiceDetailPage({
               <p>{item.cardDescription}</p>
 
               <div className={styles.serviceLinks}>
-                <Link href={`/services/${item.slug}`} className={styles.miniLink}>
+                <TrackedLink
+                  href={`/services/${item.slug}`}
+                  className={styles.miniLink}
+                  eventName="service_card_click"
+                  eventPayload={{ slug: item.slug, location: "related" }}
+                >
                   <span>Открыть страницу</span>
                   <ArrowRightIcon />
-                </Link>
+                </TrackedLink>
               </div>
             </article>
           ))}
@@ -303,15 +311,17 @@ export default async function ServiceDetailPage({
             </p>
           </div>
 
-          <a
+          <TrackedAnchor
             className={styles.primaryAction}
             href={getWhatsAppHref("ru", `${service.ctaTopic} — нужен расчёт и обсуждение`)}
             target="_blank"
             rel="noopener noreferrer"
+            eventName="whatsapp_click"
+            eventPayload={{ location: "service_detail_bottom", slug: service.slug }}
           >
             <span>Написать в WhatsApp</span>
             <ArrowUpRightIcon />
-          </a>
+          </TrackedAnchor>
         </section>
       </div>
     </main>

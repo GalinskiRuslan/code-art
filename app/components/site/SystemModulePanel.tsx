@@ -5,6 +5,7 @@ import { type CSSProperties } from "react";
 
 import type { Language } from "../../lib/i18n";
 import { getWhatsAppHref } from "../../lib/whatsapp";
+import { trackEvent } from "../../lib/analytics";
 import { moduleCopy, navIconSources, type NavItemId } from "./SystemNavCard";
 
 const corporateSitesCopy = {
@@ -591,10 +592,9 @@ const supportDevelopmentCopy = {
     ],
     contactsTitle: "Каналы поддержки",
     contacts: [
-      ["Email", "support@code-art.ru", "mail"],
-      ["Telegram", "@code_art_support", "telegram"],
-      ["WhatsApp", "+7 (999) 123-45-67", "phone"],
-      ["Helpdesk", "support.code-art.ru", "headset"],
+      ["Email", "galinskirus@gmail.com", "mail", "mailto:galinskirus@gmail.com"],
+      ["Telegram", "@rikiro", "telegram", "https://t.me/rikiro"],
+      ["WhatsApp", "+7 702 995 1886", "phone", "https://wa.me/77029951886"],
     ],
     primaryAction: "Обсудить поддержку",
     secondaryAction: "Получить план развития",
@@ -674,10 +674,9 @@ const supportDevelopmentCopy = {
     ],
     contactsTitle: "Support channels",
     contacts: [
-      ["Email", "support@code-art.ru", "mail"],
-      ["Telegram", "@code_art_support", "telegram"],
-      ["WhatsApp", "+7 (999) 123-45-67", "phone"],
-      ["Helpdesk", "support.code-art.ru", "headset"],
+      ["Email", "galinskirus@gmail.com", "mail", "mailto:galinskirus@gmail.com"],
+      ["Telegram", "@rikiro", "telegram", "https://t.me/rikiro"],
+      ["WhatsApp", "+7 702 995 1886", "phone", "https://wa.me/77029951886"],
     ],
     primaryAction: "Discuss support",
     secondaryAction: "Get growth plan",
@@ -751,7 +750,7 @@ const supportDevelopmentCopy = {
     description: string;
     benefits: Array<[string, string, string]>;
     contactsTitle: string;
-    contacts: Array<[string, string, string]>;
+    contacts: Array<[string, string, string, string]>;
     primaryAction: string;
     secondaryAction: string;
     requestsTitle: string;
@@ -1097,6 +1096,8 @@ export function SystemModulePanel({
       key={`${language}-${fallbackItem}`}
       className="system-module-panel"
       aria-label={activeModule.title}
+      role="dialog"
+      aria-modal="true"
     >
       <span className="system-module-corner system-module-corner-tl" />
       <span className="system-module-corner system-module-corner-tr" />
@@ -1249,6 +1250,9 @@ export function SystemModulePanel({
         href={getWhatsAppHref(language, activeModule.action)}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() =>
+          trackEvent("whatsapp_click", { location: "module_fallback", language })
+        }
       >
         <span aria-hidden="true">&lt;&gt;</span>
         <strong>{activeModule.action}</strong>
@@ -1272,6 +1276,8 @@ function AiIntegrationPanel({
       key={`ai-integration-${language}`}
       className="system-module-panel ai-integration-panel"
       aria-label={copy.title}
+      role="dialog"
+      aria-modal="true"
     >
       <span className="system-module-corner system-module-corner-tl" />
       <span className="system-module-corner system-module-corner-tr" />
@@ -1393,6 +1399,9 @@ function AiIntegrationPanel({
           href={getWhatsAppHref(language, copy.cta)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            trackEvent("whatsapp_click", { location: "ai_integration", language })
+          }
         >
           <strong>{copy.cta}</strong>
           <span aria-hidden="true">→</span>
@@ -1518,6 +1527,8 @@ function SupportDevelopmentPanel({
       key={`support-development-${language}`}
       className="system-module-panel support-panel"
       aria-label={copy.title}
+      role="dialog"
+      aria-modal="true"
     >
       <span className="system-module-corner system-module-corner-tl" />
       <span className="system-module-corner system-module-corner-tr" />
@@ -1554,12 +1565,21 @@ function SupportDevelopmentPanel({
           <section className="support-contact-card">
             <h3>{copy.contactsTitle}</h3>
             <div>
-              {copy.contacts.map(([title, text, icon]) => (
-                <span key={title}>
+              {copy.contacts.map(([title, text, icon, href]) => (
+                <a
+                  key={title}
+                  className="support-contact-item"
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  onClick={() =>
+                    trackEvent("contact_click", { channel: title, language })
+                  }
+                >
                   <SupportIcon icon={icon} className="support-contact-icon" />
                   <strong>{title}</strong>
                   <small>{text}</small>
-                </span>
+                </a>
               ))}
             </div>
           </section>
@@ -1569,6 +1589,12 @@ function SupportDevelopmentPanel({
               href={getWhatsAppHref(language, copy.primaryAction)}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                trackEvent("whatsapp_click", {
+                  location: "support_development_primary",
+                  language,
+                })
+              }
             >
               {copy.primaryAction}
               <span aria-hidden="true">→</span>
@@ -1577,6 +1603,12 @@ function SupportDevelopmentPanel({
               href={getWhatsAppHref(language, copy.secondaryAction)}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                trackEvent("whatsapp_click", {
+                  location: "support_development_secondary",
+                  language,
+                })
+              }
             >
               <SupportIcon icon="checklist" className="support-action-icon" />
               {copy.secondaryAction}
@@ -1897,6 +1929,8 @@ function CorporateSitesPanel({
       key={`corporate-sites-${language}`}
       className="system-module-panel corporate-sites-panel"
       aria-label={copy.title}
+      role="dialog"
+      aria-modal="true"
     >
       <span className="system-module-corner system-module-corner-tl" />
       <span className="system-module-corner system-module-corner-tr" />
@@ -2027,6 +2061,12 @@ function CorporateSitesPanel({
           href={getWhatsAppHref(language, copy.primaryAction)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            trackEvent("whatsapp_click", {
+              location: "corporate_sites_primary",
+              language,
+            })
+          }
         >
           <span className="corporate-sites-primary-icon" aria-hidden="true">
             <Image
@@ -2044,6 +2084,12 @@ function CorporateSitesPanel({
           href={getWhatsAppHref(language, copy.secondaryAction)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            trackEvent("whatsapp_click", {
+              location: "corporate_sites_secondary",
+              language,
+            })
+          }
         >
           <strong>{copy.secondaryAction}</strong>
           <i aria-hidden="true" />
@@ -2072,6 +2118,8 @@ function WebApplicationsPanel({
       key={`web-applications-${language}`}
       className="system-module-panel corporate-sites-panel web-apps-panel"
       aria-label={copy.title}
+      role="dialog"
+      aria-modal="true"
     >
       <span className="system-module-corner system-module-corner-tl" />
       <span className="system-module-corner system-module-corner-tr" />
@@ -2199,6 +2247,12 @@ function WebApplicationsPanel({
           href={getWhatsAppHref(language, copy.primaryAction)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            trackEvent("whatsapp_click", {
+              location: "web_applications_primary",
+              language,
+            })
+          }
         >
           <span className="corporate-sites-primary-icon" aria-hidden="true">
             <Image
@@ -2216,6 +2270,12 @@ function WebApplicationsPanel({
           href={getWhatsAppHref(language, copy.secondaryAction)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            trackEvent("whatsapp_click", {
+              location: "web_applications_secondary",
+              language,
+            })
+          }
         >
           <strong>{copy.secondaryAction}</strong>
           <i aria-hidden="true" />
@@ -2263,6 +2323,8 @@ function UiUxDesignPanel({
       key={`uiux-design-${language}`}
       className="system-module-panel uiux-panel"
       aria-label={copy.title}
+      role="dialog"
+      aria-modal="true"
     >
       <span className="system-module-corner system-module-corner-tl" />
       <span className="system-module-corner system-module-corner-tr" />
@@ -2487,6 +2549,12 @@ function UiUxDesignPanel({
               href={getWhatsAppHref(language, copy.primaryAction)}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                trackEvent("whatsapp_click", {
+                  location: "uiux_design_primary",
+                  language,
+                })
+              }
             >
               {copy.primaryAction}
               <span aria-hidden="true">&gt;</span>
@@ -2495,6 +2563,12 @@ function UiUxDesignPanel({
               href={getWhatsAppHref(language, copy.secondaryAction)}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                trackEvent("whatsapp_click", {
+                  location: "uiux_design_secondary",
+                  language,
+                })
+              }
             >
               {copy.secondaryAction}
             </a>
@@ -2523,6 +2597,8 @@ function CrmAutomationPanel({
       key={`crm-automation-${language}`}
       className="system-module-panel crm-panel"
       aria-label={copy.title}
+      role="dialog"
+      aria-modal="true"
     >
       <span className="system-module-corner system-module-corner-tl" />
       <span className="system-module-corner system-module-corner-tr" />
