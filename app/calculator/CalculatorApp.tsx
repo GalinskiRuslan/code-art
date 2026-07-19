@@ -27,9 +27,19 @@ const steps: Array<{ id: StepId; label: string }> = [
   { id: "support", label: "Поддержка" },
 ];
 
+function pluralizeSteps(count: number): string {
+  const mod10 = count % 10;
+  const mod100 = count % 100;
+
+  if (mod10 === 1 && mod100 !== 11) return "шаг";
+  if ([2, 3, 4].includes(mod10) && ![12, 13, 14].includes(mod100)) return "шага";
+  return "шагов";
+}
+
 export function CalculatorApp() {
   const [state, dispatch] = useReducer(calculatorReducer, initialCalculatorState);
   const [stepId, setStepId] = useState<StepId>("product");
+  const [maxVisitedIndex, setMaxVisitedIndex] = useState(0);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -50,10 +60,13 @@ export function CalculatorApp() {
 
   const currentIndex = steps.findIndex((step) => step.id === stepId);
   const canLeaveProductStep = Boolean(state.productId);
+  const isComplete = maxVisitedIndex >= steps.length - 1;
 
   const goToStep = (id: StepId) => {
     if (id !== "product" && !canLeaveProductStep) return;
+    const index = steps.findIndex((step) => step.id === id);
     setStepId(id);
+    setMaxVisitedIndex((current) => Math.max(current, index));
     trackCalculatorEvent("step_view", { step: id });
   };
 
@@ -97,6 +110,20 @@ export function CalculatorApp() {
           })}
         </nav>
 
+        <div className={styles.stepProgress}>
+          <div className={styles.stepProgressTrack}>
+            <div
+              className={styles.stepProgressFill}
+              style={{ width: `${((maxVisitedIndex + 1) / steps.length) * 100}%` }}
+            />
+          </div>
+          <span className={styles.stepProgressLabel}>
+            {isComplete
+              ? "Все шаги пройдены — расчёт готов"
+              : `Шаг ${currentIndex + 1} из ${steps.length}`}
+          </span>
+        </div>
+
         {stepId === "product" ? (
           <ProductStep state={state} dispatch={dispatch} />
         ) : null}
@@ -128,19 +155,32 @@ export function CalculatorApp() {
           )}
 
           {currentIndex < steps.length - 1 ? (
-            <button
-              type="button"
-              className={styles.footerNavButtonPrimary}
-              onClick={goNext}
-              disabled={stepId === "product" && !state.productId}
-            >
-              Далее →
-            </button>
+            <div className={styles.stepFooterNext}>
+              <span className={styles.stepFooterHint}>
+                Осталось {steps.length - 1 - currentIndex}{" "}
+                {pluralizeSteps(steps.length - 1 - currentIndex)}
+              </span>
+              <button
+                type="button"
+                className={`${styles.footerNavButtonPrimary} ${styles.footerNextButton}`}
+                onClick={goNext}
+                disabled={stepId === "product" && !state.productId}
+              >
+                Далее →
+              </button>
+            </div>
           ) : null}
         </div>
       </div>
 
-      <SummaryPanel state={state} />
+      <SummaryPanel
+        state={state}
+        isComplete={isComplete}
+        remainingStepLabels={steps.slice(maxVisitedIndex + 1).map((step) => step.label)}
+        totalSteps={steps.length}
+        completedSteps={maxVisitedIndex + 1}
+        onContinue={goNext}
+      />
     </div>
   );
 }

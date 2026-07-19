@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import { getWhatsAppHref } from "../lib/whatsapp";
 import { TrackedAnchor, TrackedLink } from "../components/TrackedLink";
 import styles from "./career.module.css";
@@ -204,8 +203,7 @@ export default function CareerPage() {
 
   return (
     <main className={styles.page}>
-      <Script
-        id="career-structured-data"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 import { notFound } from "next/navigation";
 import { getWhatsAppHref } from "../../lib/whatsapp";
 import { TrackedAnchor, TrackedLink } from "../../components/TrackedLink";
@@ -147,8 +146,7 @@ export default async function ServiceDetailPage({
 
   return (
     <main className={styles.page}>
-      <Script
-        id={`service-structured-data-${service.slug}`}
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),

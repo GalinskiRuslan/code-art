@@ -1,21 +1,49 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 import { CalculatorApp } from "./CalculatorApp";
+import { products } from "./data";
+import { calculatorFaq } from "./faq";
 import styles from "./calculator.module.css";
 
 const siteUrl = "https://codeart.kz";
 
 export const metadata: Metadata = {
-  title: { absolute: "Калькулятор стоимости проекта — Code Art" },
+  title: {
+    absolute:
+      "Калькулятор стоимости сайта, веб-приложения и CRM — Code Art",
+  },
   description:
-    "Соберите конфигурацию проекта — тип продукта, дизайн, функционал, домен и хостинг — и получите предварительную стоимость разработки от Code Art.",
+    "Онлайн-калькулятор стоимости разработки от Code Art: узнайте цену сайта, интернет-магазина, веб-приложения или CRM за пару минут. Прозрачный расчёт на основе опыта 120+ проектов, без скрытых платежей.",
   keywords: [
     "калькулятор стоимости сайта",
+    "калькулятор стоимости разработки",
+    "калькулятор стоимости веб-приложения",
+    "калькулятор стоимости интернет-магазина",
     "стоимость разработки сайта",
-    "рассчитать стоимость сайта",
-    "калькулятор интернет-магазина",
-    "Code Art",
+    "стоимость создания сайта",
+    "стоимость разработки веб-приложения",
+    "стоимость разработки интернет-магазина",
+    "стоимость разработки CRM",
+    "стоимость AI-интеграции",
+    "стоимость MVP",
+    "сколько стоит сайт",
+    "сколько стоит разработка сайта",
+    "сколько стоит интернет-магазин",
+    "сколько стоит CRM система",
+    "сколько стоит мобильное приложение",
+    "цена разработки сайта",
+    "цена сайта под ключ",
+    "рассчитать стоимость сайта онлайн",
+    "рассчитать бюджет на разработку",
+    "смета на разработку сайта",
+    "прайс на разработку сайта",
+    "стоимость лендинга",
+    "стоимость корпоративного сайта",
+    "стоимость личного кабинета",
+    "разработка сайта под ключ цена",
+    "экспертная оценка стоимости проекта",
+    "веб-студия Казахстан цены",
+    "Code Art калькулятор",
   ],
   alternates: {
     canonical: "/calculator",
@@ -24,9 +52,9 @@ export const metadata: Metadata = {
     type: "website",
     url: `${siteUrl}/calculator`,
     siteName: "Code Art",
-    title: "Калькулятор стоимости проекта — Code Art",
+    title: "Калькулятор стоимости сайта, веб-приложения и CRM — Code Art",
     description:
-      "Соберите конфигурацию проекта и получите предварительную стоимость разработки.",
+      "Соберите конфигурацию проекта и получите предварительную стоимость разработки на основе опыта 120+ реализованных проектов Code Art.",
     locale: "ru_KZ",
     images: [
       {
@@ -39,10 +67,21 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Калькулятор стоимости проекта — Code Art",
+    title: "Калькулятор стоимости сайта, веб-приложения и CRM — Code Art",
     description:
       "Соберите конфигурацию проекта и получите предварительную стоимость разработки.",
     images: [`${siteUrl}/opengraph-image`],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
@@ -64,19 +103,62 @@ const structuredData = {
     {
       "@type": "WebApplication",
       name: "Калькулятор стоимости проекта Code Art",
+      description:
+        "Интерактивный калькулятор предварительной стоимости разработки сайта, интернет-магазина, веб-приложения, CRM или MVP.",
       url: `${siteUrl}/calculator`,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
-      offers: {
+      isAccessibleForFree: true,
+      offers: products.map((product) => ({
         "@type": "Offer",
+        name: product.name,
+        price: product.basePrice,
         priceCurrency: "KZT",
-        price: "120000",
-      },
+        description: product.shortDescription,
+      })),
       provider: {
         "@type": "Organization",
         name: "Code Art",
         url: siteUrl,
       },
+    },
+    {
+      "@type": "Service",
+      "@id": `${siteUrl}/calculator#service`,
+      name: "Разработка сайтов, веб-приложений и CRM — Code Art",
+      serviceType: "Веб-разработка",
+      areaServed: "Kazakhstan",
+      provider: {
+        "@type": "Organization",
+        name: "Code Art",
+        url: siteUrl,
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Стоимость разработки по типам продуктов",
+        itemListElement: products.map((product) => ({
+          "@type": "Offer",
+          priceCurrency: "KZT",
+          price: product.basePrice,
+          itemOffered: {
+            "@type": "Service",
+            name: product.name,
+            description: product.shortDescription,
+          },
+        })),
+      },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${siteUrl}/calculator#faq`,
+      mainEntity: calculatorFaq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
     },
   ],
 };
@@ -84,8 +166,7 @@ const structuredData = {
 export default function CalculatorPage() {
   return (
     <main className={styles.page}>
-      <Script
-        id="calculator-structured-data"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
@@ -112,13 +193,39 @@ export default function CalculatorPage() {
           <h1 className={styles.title}>Рассчитайте стоимость вашего проекта</h1>
           <p className={styles.subtitle}>
             Соберите нужную конфигурацию, выберите функционал и получите
-            предварительную стоимость разработки.
+            предварительную стоимость разработки сайта, интернет-магазина,
+            веб-приложения или CRM-системы.
           </p>
+          <ul className={styles.heroCredibility}>
+            <li>120+ реализованных проектов</li>
+            <li>Прозрачное ценообразование без скрытых платежей</li>
+            <li>Расчёт основан на реальной экспертизе Code Art</li>
+          </ul>
         </div>
 
         <CalculatorApp />
+
+        <PricingFaq />
       </div>
     </main>
+  );
+}
+
+function PricingFaq() {
+  return (
+    <section className={styles.faqSection} aria-labelledby="calculator-faq-title">
+      <h2 id="calculator-faq-title" className={styles.faqTitle}>
+        Частые вопросы о стоимости разработки
+      </h2>
+      <div className={styles.faqGrid}>
+        {calculatorFaq.map((item) => (
+          <article key={item.question} className={styles.faqCard}>
+            <h3>{item.question}</h3>
+            <p>{item.answer}</p>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 

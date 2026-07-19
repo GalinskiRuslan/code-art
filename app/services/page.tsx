@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 import { getWhatsAppHref } from "../lib/whatsapp";
 import { TrackedAnchor, TrackedLink } from "../components/TrackedLink";
 import styles from "./services.module.css";
@@ -107,8 +106,7 @@ export default function ServicesPage() {
 
   return (
     <main className={styles.page}>
-      <Script
-        id="services-structured-data"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),

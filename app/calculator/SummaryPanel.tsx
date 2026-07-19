@@ -15,7 +15,21 @@ import { trackCalculatorEvent } from "./analytics";
 import type { CalculatorState } from "./types";
 import styles from "./calculator.module.css";
 
-export function SummaryPanel({ state }: { state: CalculatorState }) {
+export function SummaryPanel({
+  state,
+  isComplete,
+  remainingStepLabels,
+  totalSteps,
+  completedSteps,
+  onContinue,
+}: {
+  state: CalculatorState;
+  isComplete: boolean;
+  remainingStepLabels: string[];
+  totalSteps: number;
+  completedSteps: number;
+  onContinue: () => void;
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const [savedUrl, setSavedUrl] = useState<string | null>(null);
@@ -26,7 +40,8 @@ export function SummaryPanel({ state }: { state: CalculatorState }) {
       <aside className={styles.summary}>
         <p className={styles.summaryTitle}>Ваш проект</p>
         <p className={styles.summaryEmpty}>
-          Выберите тип продукта, чтобы увидеть предварительную стоимость.
+          Выберите тип продукта — это первый из {totalSteps} шагов, дальше
+          покажем предварительную стоимость.
         </p>
       </aside>
     );
@@ -115,28 +130,66 @@ export function SummaryPanel({ state }: { state: CalculatorState }) {
         </div>
       ) : null}
 
-      <div className={styles.summaryActions}>
-        <button
-          type="button"
-          className={styles.summaryPrimaryAction}
-          onClick={handleGetQuote}
-        >
-          Получить коммерческое предложение
-        </button>
-        <button
-          type="button"
-          className={styles.summarySecondaryAction}
-          onClick={handleSave}
-        >
-          Сохранить расчёт
-        </button>
-        {saveStatus === "copied" ? (
-          <p className={styles.saveConfirm}>Ссылка скопирована в буфер обмена</p>
-        ) : null}
-        {saveStatus === "saved" ? (
-          <p className={styles.saveConfirm}>Расчёт сохранён — ссылка в адресной строке</p>
-        ) : null}
-      </div>
+      {isComplete ? (
+        <div className={styles.summaryActions}>
+          <button
+            type="button"
+            className={styles.summaryPrimaryAction}
+            onClick={handleGetQuote}
+          >
+            Получить коммерческое предложение
+          </button>
+          <button
+            type="button"
+            className={styles.summarySecondaryAction}
+            onClick={handleSave}
+          >
+            Сохранить расчёт
+          </button>
+          {saveStatus === "copied" ? (
+            <p className={styles.saveConfirm}>Ссылка скопирована в буфер обмена</p>
+          ) : null}
+          {saveStatus === "saved" ? (
+            <p className={styles.saveConfirm}>Расчёт сохранён — ссылка в адресной строке</p>
+          ) : null}
+        </div>
+      ) : (
+        <div className={styles.summaryProgress}>
+          <div className={styles.summaryProgressRow}>
+            <span className={styles.summaryProgressLabel}>Заполнено шагов</span>
+            <span className={styles.summaryProgressValue}>
+              {completedSteps} из {totalSteps}
+            </span>
+          </div>
+          <div className={styles.summaryProgressTrack}>
+            <div
+              className={styles.summaryProgressFill}
+              style={{ width: `${(completedSteps / totalSteps) * 100}%` }}
+            />
+          </div>
+
+          {remainingStepLabels.length > 0 ? (
+            <>
+              <p className={styles.summaryRemainingTitle}>Осталось заполнить</p>
+              <ul className={styles.summaryRemainingList}>
+                {remainingStepLabels.map((label) => (
+                  <li key={label} className={styles.summaryRemainingChip}>
+                    {label}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
+
+          <button
+            type="button"
+            className={`${styles.summaryPrimaryAction} ${styles.summaryContinueAction}`}
+            onClick={onContinue}
+          >
+            Продолжить →
+          </button>
+        </div>
+      )}
 
       <p className={styles.summaryDisclaimer}>
         Расчёт является предварительным. Точная стоимость определяется после
