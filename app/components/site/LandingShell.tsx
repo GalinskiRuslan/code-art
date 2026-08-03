@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { uiCopy, type Language } from "../../lib/i18n";
+import { LaunchHubLink } from "./LaunchHubLink";
 import { SystemNavCard, type NavItemId } from "./SystemNavCard";
 
 const SceneCanvas = dynamic(
@@ -187,6 +188,7 @@ export function LandingShell({
           : "Code Art — website, web app, CRM and AI integration development"}
       </h1>
       {/* <SiteHeader /> */}
+      <LaunchHubLink />
       <div className="mobile-nav-bar">
         <span>code-art</span>
         <div className="mobile-nav-shortcuts">

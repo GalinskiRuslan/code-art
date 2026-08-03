@@ -9234,6 +9234,49 @@ a {
     0 0 24px rgba(168, 145, 240, 0.34);
 }
 
+.launch-hub-link {
+  position: fixed;
+  top: clamp(0.7rem, 1.8vw, 1.1rem);
+  right: clamp(0.8rem, 2vw, 1.6rem);
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  padding: 0 0.9rem;
+  border: 1px solid rgba(184, 160, 255, 0.38);
+  border-radius: 999px;
+  background: rgba(6, 7, 16, 0.55);
+  backdrop-filter: blur(10px);
+  color: rgba(248, 245, 255, 0.9);
+  font-size: 0.76rem;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 0 18px rgba(143, 116, 227, 0.2);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease;
+}
+
+.launch-hub-link:hover {
+  border-color: rgba(222, 213, 255, 0.62);
+  background: rgba(91, 83, 131, 0.32);
+  color: #ffffff;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 0 24px rgba(168, 145, 240, 0.34);
+}
+
+/* mobile-nav-bar already owns the top strip below this breakpoint */
+@media (max-width: 900px) {
+  .launch-hub-link {
+    display: none;
+  }
+}
+
 .overlay-flow {
   position: fixed;
   inset: 0;
