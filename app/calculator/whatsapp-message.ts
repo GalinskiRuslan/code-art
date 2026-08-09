@@ -1,8 +1,8 @@
-import { extraServices, getProductById } from "./data";
+import { discountPercent, extraServices, getProductById } from "./data";
 import { formatPrice } from "./format";
 import {
+  computeDiscountedTotal,
   computeEstimatedDuration,
-  computeTotalOneTime,
   getSummaryLineItems,
   getSummaryRecurringItems,
 } from "./state";
@@ -23,7 +23,7 @@ export function buildCalculatorWhatsAppUrl(
 
   const lineItems = getSummaryLineItems(state);
   const recurringItems = getSummaryRecurringItems(state);
-  const total = computeTotalOneTime(state);
+  const total = computeDiscountedTotal(state);
   const duration = computeEstimatedDuration(state);
 
   const parts = [
@@ -34,7 +34,9 @@ export function buildCalculatorWhatsAppUrl(
         `${item.label} — ${item.isEstimate ? "от " : ""}${formatPrice(item.amount)}`
     ),
     "",
-    `Предварительная стоимость: ${formatPrice(total)}`,
+    `Предварительная стоимость: ${formatPrice(total)}${
+      discountPercent > 0 ? ` (уже со скидкой ${discountPercent}%)` : ""
+    }`,
   ];
 
   if (duration) {

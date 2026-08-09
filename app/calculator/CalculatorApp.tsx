@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useReducer, useState } from "react";
+import { applyPricingOverrides, type CalculatorPricingOverrides } from "./data";
 import {
   calculatorReducer,
   decodeCalculatorState,
@@ -36,7 +37,14 @@ function pluralizeSteps(count: number): string {
   return "шагов";
 }
 
-export function CalculatorApp() {
+export function CalculatorApp({ pricing }: { pricing: CalculatorPricingOverrides }) {
+  // The client bundle has its own separate module instance of `data.ts`
+  // (server-side overrides applied in page.tsx don't carry over), so the
+  // resolved config from the server must be re-applied here too. Cheap and
+  // idempotent — just overwrites ~45 numbers — so no guard against
+  // re-running on every render is needed.
+  applyPricingOverrides(pricing);
+
   const [state, dispatch] = useReducer(calculatorReducer, initialCalculatorState);
   const [stepId, setStepId] = useState<StepId>("product");
   const [maxVisitedIndex, setMaxVisitedIndex] = useState(0);

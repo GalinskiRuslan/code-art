@@ -1,6 +1,7 @@
 import {
   calculatorOptions,
   designTiers,
+  discountPercent,
   domainConnectPrice,
   domainPickPrice,
   domainRegistrationSetupFee,
@@ -240,6 +241,13 @@ export function computeTotalOneTime(state: CalculatorState): number {
     computeDomainOneTime(state) +
     computeHostingOneTime(state)
   );
+}
+
+// Applies only to the one-time build cost, not recurring hosting/support —
+// those are ongoing service fees, not part of the discounted "cost of the
+// site" the admin-set percentage is meant to promote.
+export function computeDiscountedTotal(state: CalculatorState): number {
+  return computeTotalOneTime(state) * (1 - discountPercent / 100);
 }
 
 export type SummaryLineItem = {

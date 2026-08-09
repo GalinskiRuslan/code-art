@@ -110,7 +110,7 @@ export const products: CalculatorProduct[] = [
 ];
 
 export const includedPages = 5;
-export const pagePrice = 25_000;
+export let pagePrice = 25_000;
 
 export const designTiers: DesignTier[] = [
   {
@@ -448,7 +448,12 @@ export const calculatorOptions: CalculatorOption[] = [
 ];
 
 export const multilingualOptionId = "multilingual";
-export const multilingualPricePerLanguage = 80_000;
+export let multilingualPricePerLanguage = 80_000;
+
+// Single global percentage discount applied to the one-time total on the
+// summary panel — admin-editable, defaults to 0 (no discount) until an
+// admin sets one from the launch-hub-web calculator settings page.
+export let discountPercent = 0;
 
 export const domainZones: Array<{
   id: "kz" | "com";
@@ -460,9 +465,9 @@ export const domainZones: Array<{
   { id: "com", name: "Домен .com", rangeLabel: "8 000–15 000 ₸ в год", yearlyEstimate: 12_000 },
 ];
 
-export const domainRegistrationSetupFee = 5_000;
-export const domainConnectPrice = 15_000;
-export const domainPickPrice = 20_000;
+export let domainRegistrationSetupFee = 5_000;
+export let domainConnectPrice = 15_000;
+export let domainPickPrice = 20_000;
 
 export const hostingOptions: HostingOption[] = [
   {
@@ -592,4 +597,69 @@ export function getOptionById(id: string): CalculatorOption | undefined {
 
 export function getProductById(id: string): CalculatorProduct | undefined {
   return products.find((product) => product.id === id);
+}
+
+// Shape returned by GET /calculator-pricing/public on launch-hub-api —
+// keys mirror the ids above (names/descriptions/relationships stay
+// code-defined here; only prices are DB-editable, see the admin panel's
+// calculator-pricing module for the counterpart definition).
+export type CalculatorPricingOverrides = {
+  products: Record<string, number>;
+  designTiers: Record<string, number>;
+  pagePrice: number;
+  options: Record<string, number | null>;
+  optionsPriceFrom: Record<string, number>;
+  multilingualPricePerLanguage: number;
+  domain: {
+    registrationSetupFee: number;
+    connectPrice: number;
+    pickPrice: number;
+    zones: Record<string, number>;
+  };
+  hosting: Record<string, { oneTimePrice: number; recurringPrice: number | null }>;
+  supportTiers: Record<string, number>;
+  discountPercent: number;
+};
+
+// Mutates the price-bearing fields of the catalog data above in place —
+// safe because every consumer (state.ts, step components, SummaryPanel)
+// reads these same object references directly rather than caching a copy.
+// Called once server-side (page.tsx, before rendering JSON-LD) and once
+// client-side (CalculatorApp, on every render — cheap, idempotent) since
+// the server and browser bundles are separate module instances.
+export function applyPricingOverrides(overrides: CalculatorPricingOverrides): void {
+  for (const product of products) {
+    if (overrides.products[product.id] != null) product.basePrice = overrides.products[product.id];
+  }
+  for (const tier of designTiers) {
+    if (overrides.designTiers[tier.id] != null) tier.price = overrides.designTiers[tier.id];
+  }
+  if (overrides.pagePrice != null) pagePrice = overrides.pagePrice;
+  for (const option of calculatorOptions) {
+    if (option.id in overrides.options) option.price = overrides.options[option.id];
+    if (overrides.optionsPriceFrom[option.id] != null) {
+      option.priceFrom = overrides.optionsPriceFrom[option.id];
+    }
+  }
+  if (overrides.multilingualPricePerLanguage != null) {
+    multilingualPricePerLanguage = overrides.multilingualPricePerLanguage;
+  }
+  if (overrides.domain?.registrationSetupFee != null) {
+    domainRegistrationSetupFee = overrides.domain.registrationSetupFee;
+  }
+  if (overrides.domain?.connectPrice != null) domainConnectPrice = overrides.domain.connectPrice;
+  if (overrides.domain?.pickPrice != null) domainPickPrice = overrides.domain.pickPrice;
+  for (const zone of domainZones) {
+    if (overrides.domain?.zones?.[zone.id] != null) zone.yearlyEstimate = overrides.domain.zones[zone.id];
+  }
+  for (const hosting of hostingOptions) {
+    const override = overrides.hosting[hosting.id];
+    if (!override) continue;
+    if (override.oneTimePrice != null) hosting.oneTimePrice = override.oneTimePrice;
+    hosting.recurringPrice = override.recurringPrice;
+  }
+  for (const tier of supportTiers) {
+    if (overrides.supportTiers[tier.id] != null) tier.price = overrides.supportTiers[tier.id];
+  }
+  if (overrides.discountPercent != null) discountPercent = overrides.discountPercent;
 }

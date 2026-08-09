@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { discountPercent } from "./data";
 import { formatPrice } from "./format";
 import {
+  computeDiscountedTotal,
   computeEstimatedDuration,
   computeTotalOneTime,
   encodeCalculatorState,
@@ -49,7 +51,9 @@ export function SummaryPanel({
 
   const lineItems = getSummaryLineItems(state);
   const recurringItems = getSummaryRecurringItems(state);
-  const total = computeTotalOneTime(state);
+  const subtotal = computeTotalOneTime(state);
+  const total = computeDiscountedTotal(state);
+  const hasDiscount = discountPercent > 0;
   const duration = computeEstimatedDuration(state);
 
   const handleSave = async () => {
@@ -103,8 +107,18 @@ export function SummaryPanel({
       <hr className={styles.summaryDivider} />
 
       <div className={styles.summaryTotalRow}>
-        <span className={styles.summaryTotalLabel}>Предварительная стоимость</span>
-        <span className={styles.summaryTotalValue}>{formatPrice(total)}</span>
+        <span className={styles.summaryTotalLabel}>
+          Предварительная стоимость
+          {hasDiscount ? (
+            <span className={styles.summaryDiscountBadge}>−{discountPercent}%</span>
+          ) : null}
+        </span>
+        <span className={styles.summaryTotalValue}>
+          {hasDiscount ? (
+            <span className={styles.summaryTotalOriginal}>{formatPrice(subtotal)}</span>
+          ) : null}
+          {formatPrice(total)}
+        </span>
       </div>
 
       {duration ? (

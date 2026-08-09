@@ -926,17 +926,42 @@
 }
 
 .summaryTotalLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   color: rgba(226, 231, 250, 0.7);
   font-size: 0.86rem;
 }
 
+.summaryDiscountBadge {
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(143, 230, 194, 0.16);
+  color: #8fe6c2;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 .summaryTotalValue {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
   font-size: 1.4rem;
   font-weight: 800;
   background: linear-gradient(90deg, #b9c2ff, #8fe6c2);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.summaryTotalOriginal {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: rgba(226, 231, 250, 0.45);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: line-through;
 }
 
 .summaryDuration {

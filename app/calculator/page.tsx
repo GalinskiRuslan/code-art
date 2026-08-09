@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CalculatorApp } from "./CalculatorApp";
-import { products } from "./data";
+import { applyPricingOverrides, products } from "./data";
 import { calculatorFaq } from "./faq";
+import { loadCalculatorPricing } from "./pricing-loader";
 import styles from "./calculator.module.css";
 
 const siteUrl = "https://codeart.kz";
@@ -85,7 +86,11 @@ export const metadata: Metadata = {
   },
 };
 
-const structuredData = {
+// A function, not a top-level const — must run *after* applyPricingOverrides
+// so the offers reflect live (admin-edited) prices rather than whatever
+// was hardcoded when this module was first loaded at server boot.
+function buildStructuredData() {
+  return {
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -161,9 +166,14 @@ const structuredData = {
       })),
     },
   ],
-};
+  };
+}
 
-export default function CalculatorPage() {
+export default async function CalculatorPage() {
+  const pricing = await loadCalculatorPricing();
+  applyPricingOverrides(pricing);
+  const structuredData = buildStructuredData();
+
   return (
     <main className={styles.page}>
       <script
@@ -203,7 +213,7 @@ export default function CalculatorPage() {
           </ul>
         </div>
 
-        <CalculatorApp />
+        <CalculatorApp pricing={pricing} />
 
         <PricingFaq />
       </div>
