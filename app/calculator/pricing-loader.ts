@@ -51,13 +51,18 @@ const INTERNAL_API_URL =
   process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:3010";
 
 export async function loadCalculatorPricing(): Promise<CalculatorPricingOverrides> {
+  const url = `${INTERNAL_API_URL}/calculator-pricing/public`;
   try {
-    const response = await fetch(`${INTERNAL_API_URL}/calculator-pricing/public`, {
-      next: { revalidate: 60 },
-    });
-    if (!response.ok) return DEFAULT_PRICING;
+    const response = await fetch(url, { next: { revalidate: 60 } });
+    if (!response.ok) {
+      console.error(
+        `[calculator-pricing] ${url} responded ${response.status} ${response.statusText} — falling back to defaults`,
+      );
+      return DEFAULT_PRICING;
+    }
     return (await response.json()) as CalculatorPricingOverrides;
-  } catch {
+  } catch (error) {
+    console.error(`[calculator-pricing] fetch to ${url} failed — falling back to defaults`, error);
     return DEFAULT_PRICING;
   }
 }
