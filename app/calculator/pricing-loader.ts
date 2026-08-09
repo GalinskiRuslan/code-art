@@ -43,12 +43,19 @@ const DEFAULT_PRICING: CalculatorPricingOverrides = {
   discountPercent: 0,
 };
 
-// Container-to-container calls must use the Compose service DNS name
-// (`api`), not `localhost` — NEXT_PUBLIC_API_URL is the browser-facing
-// URL and only resolves on the host machine. Falls back to it anyway for
-// native `next dev` outside Docker, where `api` doesn't resolve.
+// Hardcoded rather than read from an env var — this site is deployed on
+// Vercel, which has no INTERNAL_API_URL/NEXT_PUBLIC_API_URL configured
+// (Vercel doesn't read docker-compose.yml at all, those vars only exist
+// for local/self-hosted Docker). Update this constant directly if
+// launch-hub-api's public URL ever changes.
+const PRODUCTION_API_URL = "https://launch.codeart.kz/api";
+
+// Local/self-hosted Docker (docker-compose.yml's `front` service) still
+// overrides via env var — container-to-container calls there use the
+// Compose service DNS name (`api`), which only resolves inside that
+// network, not on Vercel.
 const INTERNAL_API_URL =
-  process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:3010";
+  process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || PRODUCTION_API_URL;
 
 export async function loadCalculatorPricing(): Promise<CalculatorPricingOverrides> {
   const url = `${INTERNAL_API_URL}/calculator-pricing/public`;
